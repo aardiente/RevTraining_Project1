@@ -1,0 +1,58 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  
+  <servlet>
+  	<servlet-name>LoginController</servlet-name>
+  	<display-name>LoginController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.LoginController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>SignUpController</servlet-name>
+  	<display-name>SignUpController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.SignUpController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>CreateRequestController</servlet-name>
+  	<display-name>CreateRequestController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.CreateRequestController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ViewRequestsController</servlet-name>
+  	<display-name>ViewRequestsController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.ViewRequestsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>LoginController</servlet-name>
+  	<url-pattern>/LoginController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SignUpController</servlet-name>
+  	<url-pattern>/SignUpController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SignUpController</servlet-name>
+  	<url-pattern>/SignUp</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateRequestController</servlet-name>
+  	<url-pattern>/CreateRequestController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateRequestController</servlet-name>
+  	<url-pattern>/CreateRequest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ViewRequestsController</servlet-name>
+  	<url-pattern>/ViewRequestsController</url-pattern>
+  </servlet-mapping>
+
+</web-app>
