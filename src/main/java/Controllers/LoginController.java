@@ -51,8 +51,8 @@ public class LoginController extends HttpServlet
 		
 		EmployeeDAO dao = new EmployeeDAOImpl();
 		boolean result =  dao.verifyLogin(user, pass);
-		out.println("<html><body>");
-		out.println("Login attempt to " + user + (result ? " is successful" : " has failed" ) + "</body></html>");
+		out.println("<html><footer>");
+		out.println("Login attempt to " + user + (result ? " is successful" : " has failed" ) + "</footer></html>");
 		
 		HttpSession session = request.getSession(); 
 		RequestDispatcher dis = null;

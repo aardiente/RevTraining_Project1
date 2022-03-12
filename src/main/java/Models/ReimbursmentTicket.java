@@ -52,12 +52,36 @@ public class ReimbursmentTicket
 			}
 			return res;
 		}
+		@Override
+		public String toString()
+		{
+			String output = null;
+			switch(this)
+			{
+			case Pending:
+				output = "Pending";
+				break;
+			case Approved:
+				output = "Approved";
+				break;
+			case Denied:
+				output = "Denied";
+				break;
+			default:
+				output = "Invalid";
+				break;
+			}
+			
+			return output;
+		}
 	}
 	private int id;
 	private float amount;
 	private Date requestDate;
+	private Date closeDate;
 	private statusFlag status;
 	private Employee owner;
+	private Manager auditor;
 	
 	public ReimbursmentTicket(int id, float amount, Date requestDate, int status, Employee ref) {
 		super();
@@ -66,6 +90,30 @@ public class ReimbursmentTicket
 		this.requestDate = requestDate;
 		this.status = statusFlag.getStatusFlag(status);
 		owner = ref;
+		auditor = null;
+		closeDate = null;
+	}
+	
+	public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
+	}
+
+	public Manager getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(Manager auditor) {
+		this.auditor = auditor;
+	}
+
+	public ReimbursmentTicket(int id, float amount, Date requestDate, Date closeDate, int status, Employee ref, Manager mref) {
+		this(id, amount, requestDate, status, ref);
+		this.closeDate = closeDate;
+		auditor = mref;
 	}
 
 	public int getId() {

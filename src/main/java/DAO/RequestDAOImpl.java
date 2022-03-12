@@ -16,7 +16,8 @@ import services.DBConnection;
 public class RequestDAOImpl implements RequestDAO 
 {
 	private static String creRequestSQL = "{? = call createreimburmentrequest(?, ?)}";
-	private static String getAllSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
+	private static String getAllPendingSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
+	private static String getAllArchivedSQL = "select request_id, request_amount, request_date, request_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
 	@Override
 	public boolean createRequest(ReimbursmentTicket obj) 
 	{
@@ -67,20 +68,10 @@ public class RequestDAOImpl implements RequestDAO
 	{
 		ArrayList<ReimbursmentTicket> tickList = new ArrayList<ReimbursmentTicket>();
 		
-
-		
-		return tickList;
-	}
-
-	@Override
-	public ArrayList<ReimbursmentTicket> getAllById(int id) 
-	{
-		ArrayList<ReimbursmentTicket> tickList = new ArrayList<ReimbursmentTicket>();
-		
 		Connection con = DBConnection.getConnection();
 		try 
 		{
-			PreparedStatement state = con.prepareStatement(getAllSQL);
+			PreparedStatement state = con.prepareStatement(getAllPendingSQL);
 			state.setInt(1, id);
 			if(state.execute())
 			{
@@ -95,11 +86,54 @@ public class RequestDAOImpl implements RequestDAO
 			}
 		} catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally
 		{
 			DBConnection.closeConnection(con);
+		}
+		
+		return tickList;
+	}
+
+	@Override
+	public ArrayList<ReimbursmentTicket> getAllById(int id) 
+	{
+		ArrayList<ReimbursmentTicket> tickList = new ArrayList<ReimbursmentTicket>();
+		PreparedStatement state = null;
+		Connection con = DBConnection.getConnection();
+		try 
+		{
+			state = con.prepareStatement(getAllArchivedSQL);
+			state.setInt(1, id);
+			if(state.execute())
+			{
+				ResultSet set = state.getResultSet();
+				Employee temp = null;
+				EmployeeDAO dao = new EmployeeDAOImpl();
+				Manager mTemp = null;
+				while(set.next())
+				{
+					temp = dao.searchById(id);
+					//mTemp = dao.searchById(set.getInt(6));
+					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
+				}
+				
+				ArrayList<ReimbursmentTicket> tList = new RequestDAOImpl().getPendingById(id);
+				
+				for(ReimbursmentTicket t : tList)
+					tickList.add(t);
+			}
+		} catch (SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}finally
+		{
+			DBConnection.closeConnection(con);
+			try {
+				state.close();
+			} catch (NullPointerException|SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return tickList;

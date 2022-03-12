@@ -1,8 +1,10 @@
 package Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,19 +45,27 @@ public class ViewRequestsController extends HttpServlet {
 	{
 		RequestDAO dao = new RequestDAOImpl();
 		HttpSession session = request.getSession(); 
+		PrintWriter out = response.getWriter();
+		RequestDispatcher dis = null;
+		
 		if(request.getParameter("pendingBtn") != null)
-		{
-			
-		}
-		else if(request.getParameter("viewAllBtn") != null)
 		{
 			Employee emp = (Employee)session.getAttribute("CurEmp");
 			ArrayList<ReimbursmentTicket> tickList = dao.getAllById(emp.getId());
 			
+			out.println("<br/><div class=\"pendingTable\"><table class=\"table table-dark\"><thead>");
+			out.println("<tr> <th scope=\"col\">Id</th> <th scope=\"col\">Amount</th>  <th scope=\"col\">Date</th> <th scope=\"col\">Status</th> </tr> </thead>");
 			for(ReimbursmentTicket t : tickList)
 			{
-				
+				out.println("<tr> <td>" + t.getId() + "</td><td>" + t.getAmount() + "</td><td>" + t.getRequestDate() + "</td><td>" + t.getStatus() + "</td></tr>");
 			}
+			out.println("</table></div>");
+			dis = request.getRequestDispatcher("ViewRequests.jsp");
+			dis.include(request, response);
+		}
+		else if(request.getParameter("viewAllBtn") != null)
+		{
+
 		}
 			
 	}

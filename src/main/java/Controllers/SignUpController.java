@@ -12,14 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.EmployeeDAO;
 import DAO.EmployeeDAOImpl;
+import DAO.ManagerDAO;
+import DAO.ManagerDAOImpl;
 import Models.Employee;
+import Models.Manager;
 
 /**
  * Servlet implementation class SignUpController
  */
 public class SignUpController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private static final String adminCode = "abc123";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,12 +50,23 @@ public class SignUpController extends HttpServlet {
 		String[] data = {
 						request.getParameter("username"),	request.getParameter("password"),	request.getParameter("fname"),
 						request.getParameter("lname"),		request.getParameter("email"),		request.getParameter("address"),
-						request.getParameter("phonenumber")};
+						request.getParameter("phonenumber"), request.getParameter("accessCodeField")};
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		RequestDispatcher dis = null;
-		if (dao.addEmployee( new Employee(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))
+		
+		if(data[7].equals(adminCode))
+		{
+			ManagerDAO mdao = new ManagerDAOImpl();
+			if(mdao.addManager(new Manager(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))
+			{
+				dis = request.getRequestDispatcher("Login.html");
+				dis.include(request, response);
+				out.println("Account Created.");
+			}
+		}
+		else if (dao.addEmployee( new Employee(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))
 		{
 			dis = request.getRequestDispatcher("Login.html");
 			dis.include(request, response);
