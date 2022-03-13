@@ -2,15 +2,27 @@
  * 
  */
 
-var add = (function (){
-	var count = 0;
-	return function()
-	{
-		count += 1;
-		return count;	
-	}
-});
+function accessField()
+{
+	var master = document.getElementById('accessCodeDiv');
+	var ninput = document.createElement('input');
+	ninput.type = 'text';
+	ninput.setAttribute('class', 'form-control');
+	ninput.setAttribute('id', 'codefield');
+	ninput.setAttribute('name', 'accessCodeField');
+	
+	var nlabel = document.createElement('label');
+	nlabel.type = 'text';
+	nlabel.setAttribute('for', 'codelabel');
+	nlabel.setAttribute('class', 'form-control');
+	
+	
+	master.append(ninput);
 
+	
+	var btn = document.getElementById('accessCodeBtn');
+	btn.style.visibility = 'hidden';
+}
 
 function validateAmount()
 {

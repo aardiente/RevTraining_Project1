@@ -7,12 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import Models.Employee;
 import Models.Manager;
 import services.DBConnection;
 
 public class ManagerDAOImpl implements ManagerDAO {
 	private static String createManager = "{? = call addManager(?, ?, ?, ?, ?, ?, ?)}";
 	private static String getById = "select manager_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Manager join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where manager_id = ?";
+	private String backupSearch = "select manager_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Manager join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where user_name = ?";
+	
 	
 	@Override
 	public boolean addManager(Manager ref) 
@@ -89,6 +92,42 @@ public class ManagerDAOImpl implements ManagerDAO {
 		}
 		
 		return ref;
+	}
+
+	@Override
+	public Manager getByUsername(String username) {
+		Connection con = DBConnection.getConnection();
+		Manager temp = null;
+		
+		try 
+		{
+			CallableStatement state = con.prepareCall(backupSearch);
+			state.setString(1, username);
+			
+			if(state.execute())
+			{
+				ResultSet set = state.getResultSet();
+				
+				if(set.next())
+				{
+					temp = new Manager(Integer.valueOf(set.getString(1)), set.getString(2), set.getString(3), set.getString(4),
+							set.getString(5), set.getString(6), set.getString(7), set.getString(8), set.getDate(9));
+				}
+			}
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			DBConnection.closeConnection(con);
+		}
+		
+		return temp;
 	}
 
 }

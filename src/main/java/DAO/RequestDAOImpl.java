@@ -110,18 +110,16 @@ public class RequestDAOImpl implements RequestDAO
 				ResultSet set = state.getResultSet();
 				Employee temp = null;
 				EmployeeDAO dao = new EmployeeDAOImpl();
+				ManagerDAO mdao = new ManagerDAOImpl();
+				
 				Manager mTemp = null;
 				while(set.next())
 				{
 					temp = dao.searchById(id);
-					//mTemp = dao.searchById(set.getInt(6));
+					mTemp = mdao.getById(set.getInt(6));
 					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
 				}
 				
-				ArrayList<ReimbursmentTicket> tList = new RequestDAOImpl().getPendingById(id);
-				
-				for(ReimbursmentTicket t : tList)
-					tickList.add(t);
 			}
 		} catch (SQLException e) 
 		{

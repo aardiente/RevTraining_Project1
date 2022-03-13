@@ -22,8 +22,8 @@
          <li class="nav-item">
            <a class="nav-link " href="CreateRequest.jsp">Make Request</a>
          </li>
-         <li class="nav-item active">
-           <a class="nav-link" href="ViewRequest.jsp">View Request</a>
+         <li class="nav-item">
+           <a class="nav-link active" href="ViewRequest.jsp">View Request</a>
          </li>
        </ul>
  </div>

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import DAO.EmployeeDAO;
 import DAO.EmployeeDAOImpl;
+import DAO.ManagerDAOImpl;
 import Models.Employee;
+import Models.Manager;
 
 /**
  * Servlet implementation class LoginController
@@ -41,8 +43,8 @@ public class LoginController extends HttpServlet
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		response.setContentType("text/html");
 		
 		String user = request.getParameter("loginUser");
@@ -58,24 +60,35 @@ public class LoginController extends HttpServlet
 		RequestDispatcher dis = null;
 		if(result)
 		{
+			if(dao.isEmployee(user))
+			{
+				Employee temp = dao.searchByUsername(user);
+				
+				if(temp != null)
+					session.setAttribute("CurEmp", temp);
+				
+				System.out.println(temp);
+			
+				dis = request.getRequestDispatcher("EmployeeHome.jsp");
+			}
+			else
+			{
+				Manager temp = new ManagerDAOImpl().getByUsername(user);
+				
+				if(temp != null)
+					session.setAttribute("CurMan", temp);
+				
+				System.out.println(temp);
+				dis = request.getRequestDispatcher("ManagerHome.jsp");
+			}
 			session.setAttribute("username", user);
 			session.setAttribute("password", pass);
-			
-			Employee temp = dao.searchByUsername(user);
-			
-			if(temp != null)
-				session.setAttribute("CurEmp", temp);
-			
-			System.out.println(temp);
-		
-			dis = request.getRequestDispatcher("EmployeeHome.jsp");
-			dis.include(request, response);
 		}
 		else
 		{
 			dis = request.getRequestDispatcher("Login.html");
-			dis.include(request, response);
 		}
+		dis.include(request, response);
 	}
 
 }

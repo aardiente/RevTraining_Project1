@@ -50,24 +50,41 @@ public class ViewRequestsController extends HttpServlet {
 		
 		if(request.getParameter("pendingBtn") != null)
 		{
-			Employee emp = (Employee)session.getAttribute("CurEmp");
-			ArrayList<ReimbursmentTicket> tickList = dao.getAllById(emp.getId());
-			
-			out.println("<br/><div class=\"pendingTable\"><table class=\"table table-dark\"><thead>");
-			out.println("<tr> <th scope=\"col\">Id</th> <th scope=\"col\">Amount</th>  <th scope=\"col\">Date</th> <th scope=\"col\">Status</th> </tr> </thead>");
-			for(ReimbursmentTicket t : tickList)
-			{
-				out.println("<tr> <td>" + t.getId() + "</td><td>" + t.getAmount() + "</td><td>" + t.getRequestDate() + "</td><td>" + t.getStatus() + "</td></tr>");
-			}
-			out.println("</table></div>");
+			getPending(out, session);
 			dis = request.getRequestDispatcher("ViewRequests.jsp");
 			dis.include(request, response);
 		}
 		else if(request.getParameter("viewAllBtn") != null)
 		{
-
+			Employee emp = (Employee)session.getAttribute("CurEmp");
+			ArrayList<ReimbursmentTicket> tickList = dao.getAllById(emp.getId());
+			
+			out.println("<br/><div class=\"pendingTable\"><table class=\"table table-dark\"><thead>");
+			out.println("<tr> <th scope=\"col\">Id</th> <th scope=\"col\">Amount</th>  <th scope=\"col\">Request Date</th> <th scope=\"col\">Archive Date</th> <th scope=\"col\">Status</th> </tr> </thead>");
+			for(ReimbursmentTicket t : tickList)
+			{
+				out.println("<tr> <td>" + t.getId() + "</td><td>" + t.getAmount() + "</td><td>" + t.getRequestDate() + "</td><td>" + t.getCloseDate() + "</td><td>" + t.getStatus() + "</td></tr>");
+			}
+			out.println("</table></div>");
+			getPending(out, session);
+			dis = request.getRequestDispatcher("ViewRequests.jsp");
+			dis.include(request, response);
 		}
 			
 	}
+	private void getPending(PrintWriter pw, HttpSession ses)
+	{
+		Employee emp = (Employee)ses.getAttribute("CurEmp");
+		ArrayList<ReimbursmentTicket> tickList = new RequestDAOImpl().getPendingById(emp.getId());
+		
+		pw.println("<br/><div class=\"pendingTable\"><table class=\"table table-dark\"><thead>");
+		pw.println("<tr> <th scope=\"col\">Id</th> <th scope=\"col\">Amount</th>  <th scope=\"col\">Date</th> <th scope=\"col\">Status</th> </tr> </thead>");
+		for(ReimbursmentTicket t : tickList)
+		{
+			pw.println("<tr> <td>" + t.getId() + "</td><td>" + t.getAmount() + "</td><td>" + t.getRequestDate() + "</td><td>" + t.getStatus() + "</td></tr>");
+		}
+		pw.println("</table></div>");
+	}
+
 
 }

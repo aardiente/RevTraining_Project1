@@ -14,30 +14,6 @@
 <link rel="shortcut icon" href="">
 <!-- Just so it shuts up. -->
 </head>
-<script type="text/javascript">
-	function accessField()
-	{
-		var master = document.getElementById('accessCodeDiv');
-		var ninput = document.createElement('input');
-		ninput.type = 'text';
-		ninput.setAttribute('class', 'form-control');
-		ninput.setAttribute('id', 'codefield');
-		ninput.setAttribute('name', 'accessCodeField');
-		
-		var nlabel = document.createElement('label');
-		nlabel.type = 'text';
-		nlabel.setAttribute('for', 'codelabel');
-		nlabel.setAttribute('class', 'form-control');
-		
-		
-		master.append(ninput);
-
-		
-		var btn = document.getElementById('accessCodeBtn');
-		btn.style.visibility = 'hidden';
-	}
-
-</script>
 
 
 <body>
@@ -66,18 +42,17 @@
 	<form action="SignUp" class="SignUpForm" id="SignUpForm" method="Post"
 		onSubmit="return validateFields()">
 
-
 		<div class="row g-3">
 			<div class="col-12">
 				<label for="usernameTB" class="form-label"> Username </label> <input
 					type="text" name="username" id="usernameTB" class="form-control">
 			</div>
-			<div class="col-12">
+			<div class="col-6">
 				<label for="passwordTB" class="form-label"> Password </label> <input
 					type="password" name="password" id="passwordTB"
 					class="form-control">
 			</div>
-			<div class="col-12">
+			<div class="col-6">
 				<label for="conpasswordTB" class="form-label"> Confirm Password </label> <input
 					type="password" name="conpassword" id="conpasswordTB"
 					class="form-control">

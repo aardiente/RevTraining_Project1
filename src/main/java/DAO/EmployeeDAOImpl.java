@@ -72,7 +72,6 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	@Override
 	public boolean updateEmployee(Employee ref) 
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -100,7 +99,6 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			
 		} catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e)
 		{
@@ -112,6 +110,40 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		}
 		
 		return temp;
+	}
+	public boolean isEmployee(String username)
+	{
+		PreparedStatement state = null;
+		Connection con = null;
+		boolean flag = false;
+		try 
+		{
+			con = DBConnection.getConnection();
+			state = con.prepareStatement("select user_id from useraccount join Employee on fk_userid = user_id where user_name = ?");
+			state.setString(1, username);
+			
+			if(state.execute())
+			{
+				ResultSet set = state.getResultSet();
+				
+				if(set.next())
+					flag = true;
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally
+		{
+			DBConnection.closeConnection(con);
+			try {
+				state.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return flag;
 	}
 
 	@Override
