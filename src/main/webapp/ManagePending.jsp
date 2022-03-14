@@ -17,7 +17,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	StringBuffer url = request.getRequestURL();
 	String res = JSPHelper.urlParser(url.toString());
 %>
-<title>Welcome <%= user.getFirstName() + " " + user.getLastName() %></title>
+<title>Logged In as <%= user.getUsername() %> </title>
 
 </head>
 <body>
@@ -42,12 +42,11 @@ ManagerDAO dao = new ManagerDAOImpl();
 		 </div>
 		 </div>
 		 </nav>
-		 <h3> Hello <%= user.getFirstName() + " " + user.getLastName() %> </h3>
 		 
 	<br/>
 	<div class="container-fluid">
 
-		<form class="ManagerControlsForm" action="ManageRequestsController" method="post">
+		<form class="ManagerControlsForm" action="ManageRequestsController" method="get">
 		<div class="row">
 			<div class="col-sm">
 				<input type="submit"  name="viewBtn" id="viewBtn" class="btn btn-dark" value="View All">
@@ -65,6 +64,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	</div>
 <br/>
 <div class="pendingTable">
+	<form class="updateTicket">
 	<table class="table table-dark">
 	<% 
 		ArrayList<ReimbursmentTicket> tickList = (ArrayList<ReimbursmentTicket>)session.getAttribute("formList");
@@ -100,10 +100,13 @@ ManagerDAO dao = new ManagerDAOImpl();
 			
 			   </tr> <%}
 			}
-			
 		}
-	%>
+		if(editFlag != null && editFlag.booleanValue()) 
+		{%>
+			<input type="submit" name="updateTicketBtn" class="btn btn-primary" value="Update">
+		<%}%>
 	</table>
+</form>
 </div>
 	
 	

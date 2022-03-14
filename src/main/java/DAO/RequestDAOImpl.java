@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,11 +17,12 @@ import services.DBConnection;
 
 public class RequestDAOImpl implements RequestDAO 
 {
-	private static String creRequestSQL = "{? = call createreimburmentrequest(?, ?)}";
-	private static String getAllPendingSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
-	private static String getAllArchivedSQL = "select request_id, request_amount, request_date, request_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
+	private static final String creRequestSQL = "{? = call createreimburmentrequest(?, ?)}";
+	private static final String getAllPendingSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
+	private static final String getAllArchivedSQL = "select reimbursement_id, reimbursement_amount, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
+	private static final String archiveRequestSQL = "{? = call archiveReimbursement(?, ?, ?, ?, ?)}"; // Id ref = amount, date, status, ownerId, manId
 	@Override
-	public boolean createRequest(ReimbursmentTicket obj) 
+    public boolean createRequest(ReimbursmentTicket obj) 
 	{
 		Connection con = DBConnection.getConnection();
 		boolean flag = false;
@@ -53,15 +55,48 @@ public class RequestDAOImpl implements RequestDAO
 	}
 
 	@Override
-	public boolean updateRequest(ReimbursmentTicket obj) {
+	public boolean updateRequest(ReimbursmentTicket obj) 
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean archiveRequest(ReimbursmentTicket obj, Manager manager) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean archiveRequest(ReimbursmentTicket obj, Manager manager) 
+	{
+		CallableStatement state = null;
+		Connection con = null;
+		boolean flag = false;
+		
+		try 
+		{
+			con = DBConnection.getConnection();
+			state = con.prepareCall(archiveRequestSQL);
+			state.registerOutParameter(1, Types.INTEGER);
+			state.setFloat(2, obj.getAmount());
+			state.setDate(3, obj.getRequestDate());
+			state.setInt(4, obj.getStatus().getStatusAsInt());
+			state.setInt(5, obj.getOwner().getId());
+			state.setInt(6, manager.getId());
+			
+			obj.setAuditor(manager);
+			obj.setCloseDate(new Date(System.currentTimeMillis()));
+			
+			if(state.executeUpdate() > 0)
+				flag = true;
+			
+			state.close();
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBConnection.closeConnection(con);
+		}
+		
+		
+		return flag;
 	}
 
 	@Override

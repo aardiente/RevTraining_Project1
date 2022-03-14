@@ -16,7 +16,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	StringBuffer url = request.getRequestURL();
 	String res = JSPHelper.urlParser(url.toString());
 %>
-<title>Welcome <%= user.getFirstName() + " " + user.getLastName() %></title>
+<title>Logged In as <%= user.getUsername() %> </title>
 
 </head>
 <body>
@@ -41,6 +41,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 		 </div>
 		 </div>
 		 </nav>
+		 <br/><br/>
 		 <h3> Hello <%= user.getFirstName() + " " + user.getLastName() %> </h3>
 </body>
 </html>

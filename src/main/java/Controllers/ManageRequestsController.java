@@ -36,8 +36,43 @@ public class ManageRequestsController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RequestDAO dao = new RequestDAOImpl();
+		HttpSession session = request.getSession(); 
+		RequestDispatcher dis = null;
+		
+		ArrayList<ReimbursmentTicket> tickList = (session.getAttribute("formList") == null) ? null : (ArrayList<ReimbursmentTicket>)session.getAttribute("formList");
+
+		Object edit = request.getParameter("editBtn");
+		Object view = request.getParameter("viewBtn");
+		
+		if(session.getAttribute("editFlag") == null)
+			session.setAttribute("editFlag", false);
+		
+		boolean editFlag = ((Boolean)session.getAttribute("editFlag")).booleanValue();
+		
+		if(edit != null)
+			session.setAttribute("editFlag", !editFlag);
+
+		else if(request.getParameter("searchBtn") != null)
+		{
+			String uname = request.getParameter("searchTB");
+			if(uname != null)
+			{
+				Employee search = new EmployeeDAOImpl().searchByUsername(uname);
+				
+				if(search != null)
+					tickList = new RequestDAOImpl().getPendingById(search.getId());
+
+			}
+		}
+		else if(view != null)
+		{
+			tickList = dao.getAllPending();
+		}
+
+		session.setAttribute("formList", tickList);
+		dis = request.getRequestDispatcher("ManagePending.jsp");
+		dis.include(request, response);
 	}
 
 	/**

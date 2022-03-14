@@ -74,6 +74,10 @@ public class ReimbursmentTicket
 			
 			return output;
 		}
+		public int getStatusAsInt()
+		{
+			return getStatusFlag(this);
+		}
 	}
 	private int id;
 	private float amount;
