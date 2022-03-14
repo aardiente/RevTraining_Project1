@@ -30,6 +30,12 @@
   	<description></description>
   	<servlet-class>Controllers.ViewRequestsController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ManageRequestsController</servlet-name>
+  	<display-name>ManageRequestsController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.ManageRequestsController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginController</servlet-name>
   	<url-pattern>/LoginController</url-pattern>
@@ -53,6 +59,14 @@
   <servlet-mapping>
   	<servlet-name>ViewRequestsController</servlet-name>
   	<url-pattern>/ViewRequestsController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ManageRequestsController</servlet-name>
+  	<url-pattern>/ManageRequestsController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ManageRequestsController</servlet-name>
+  	<url-pattern>/ManageRequests</url-pattern>
   </servlet-mapping>
 
 </web-app>

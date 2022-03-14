@@ -73,7 +73,7 @@ public class LoginController extends HttpServlet
 			}
 			else
 			{
-				Manager temp = new ManagerDAOImpl().getByUsername(user);
+				Manager temp = new ManagerDAOImpl().searchByUsername(user);
 				
 				if(temp != null)
 					session.setAttribute("CurMan", temp);

@@ -165,9 +165,9 @@ public class EmployeeDAOImpl implements EmployeeDAO
 							set.getString(5), set.getString(6), set.getString(7), set.getString(8), set.getDate(9));
 				}
 			}
+			state.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally
 		{

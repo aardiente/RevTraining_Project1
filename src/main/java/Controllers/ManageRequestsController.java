@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.EmployeeDAOImpl;
 import DAO.RequestDAO;
 import DAO.RequestDAOImpl;
 import Models.Employee;
@@ -18,15 +19,15 @@ import Models.ReimbursmentTicket;
 import services.ControllerHelper;
 
 /**
- * Servlet implementation class ViewRequestsController
+ * Servlet implementation class ManageRequestsController
  */
-public class ViewRequestsController extends HttpServlet {
+public class ManageRequestsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewRequestsController() {
+    public ManageRequestsController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,25 +47,44 @@ public class ViewRequestsController extends HttpServlet {
 	{
 		RequestDAO dao = new RequestDAOImpl();
 		HttpSession session = request.getSession(); 
-		PrintWriter out = response.getWriter();
 		RequestDispatcher dis = null;
-		Employee emp = (Employee)session.getAttribute("CurEmp");
 		
-		if(request.getParameter("pendingBtn") != null)
+		ArrayList<ReimbursmentTicket> tickList = (session.getAttribute("formList") == null) ? null : (ArrayList<ReimbursmentTicket>)session.getAttribute("formList");
+		Object view = request.getParameter("viewBtn");
+		Object edit = request.getParameter("editBtn");
+		
+		if(session.getAttribute("editFlag") == null)
+			session.setAttribute("editFlag", false);
+		
+		if( view != null )
 		{
-			ControllerHelper.getPendingById(out, session, emp);
-			dis = request.getRequestDispatcher("ViewRequests.jsp");
-			dis.include(request, response);
+			tickList = dao.getAllPending();
+			session.setAttribute("editFlag", false);
 		}
-		else if(request.getParameter("viewAllBtn") != null)
+		if(edit != null)
 		{
-			ArrayList<ReimbursmentTicket> tickList = dao.getAllById(emp.getId());
-			
-			ControllerHelper.getAllPending(out, session, tickList);
-			ControllerHelper.getPendingById(out, session, emp);
-			dis = request.getRequestDispatcher("ViewRequests.jsp");
-			dis.include(request, response);
+			session.setAttribute("editFlag", true);
 		}
-			
+		if(request.getParameter("searchBtn") != null)
+		{
+			String uname = request.getParameter("searchTB");
+			if(uname != null)
+			{
+				Employee search = new EmployeeDAOImpl().searchByUsername(uname);
+				
+				if(search != null)
+				{
+					tickList = new RequestDAOImpl().getPendingById(search.getId());
+					
+					for(ReimbursmentTicket t : tickList)
+						System.out.println(t);
+				}
+			}
+		}
+
+		session.setAttribute("formList", tickList);
+		dis = request.getRequestDispatcher("ManagePending.jsp");
+		dis.include(request, response);
 	}
+
 }

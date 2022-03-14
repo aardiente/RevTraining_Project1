@@ -13,4 +13,6 @@ public interface RequestDAO
 	
 	public ArrayList<ReimbursmentTicket> getPendingById(int id);
 	public ArrayList<ReimbursmentTicket> getAllById(int id);
+	public ArrayList<ReimbursmentTicket> getAllPending();
+	public ArrayList<ReimbursmentTicket> getAllArchived();
 }

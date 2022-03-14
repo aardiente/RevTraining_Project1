@@ -38,7 +38,7 @@ function validateByLength(strField, min, max)
 {
 	if(strField.length < min)
 		return true;
-	else if(strField.length > max & max != 0)
+	else if(strField.length > max && max != 0)
 		return true;
 	else
 		return false;
@@ -53,6 +53,7 @@ function validateFields()
 {
 	var uname 	= document.getElementById("usernameTB").value;
 	var pass 	= document.getElementById("passwordTB").value;
+	var conpass = document.getElementById("conpasswordTB").value;
 	var fname	= document.getElementById("fnameTB").value;
 	var lname	= document.getElementById("lnameTB").value;
 	var email 	= document.getElementById("emailTB").value;
@@ -69,6 +70,11 @@ function validateFields()
 		alert("Password must be between 5 and 12 letters.");
 		return false;
 	}
+	else if(pass !== conpass)
+	{
+		alert("Passwords do not match");
+		return false;
+	}
 	else if(validateByLength(fname, 0, 0) || validateByLength(lname, 0, 0))
 	{
 		alert("You must enter your name.");
@@ -79,12 +85,17 @@ function validateFields()
 		alert("Please enter your email");
 		return false;
 	}
+	else if(!validateEmail(email))
+	{
+		alert("Invalid email format");
+		return false;
+	}
 	else if(validateByLength(add, 0, 0))
 	{
 		alert("Please enter your address");
 		return false;
 	}
-	else if(validateByLength(phone), 0, 0)
+	else if(validateByLength(phone, 0, 0))
 	{
 		alert("Please enter your phone number. I won't write it on the bathroom wall... promise. What you dont trust me? *scoffs* how dare you!");
 		return false;
@@ -92,6 +103,14 @@ function validateFields()
 
 	return true;
 }
+	
+function validateEmail(email)
+{
+	var emailUnicode = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	return emailUnicode.test(email);
+}
+
+	
 	
 function validateLogin()
 {

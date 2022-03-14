@@ -14,6 +14,7 @@ import DAO.EmployeeDAO;
 import DAO.EmployeeDAOImpl;
 import DAO.ManagerDAO;
 import DAO.ManagerDAOImpl;
+import DAO.UserAccountDAOImpl;
 import Models.Employee;
 import Models.Manager;
 
@@ -45,7 +46,6 @@ public class SignUpController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		// TODO Auto-generated method stub
 		EmployeeDAO dao = new EmployeeDAOImpl();
 		String[] data = {
 						request.getParameter("username"),	request.getParameter("password"),	request.getParameter("fname"),
@@ -56,14 +56,29 @@ public class SignUpController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		RequestDispatcher dis = null;
 		
-		if(data[7].equals(adminCode))
+		if(!new UserAccountDAOImpl().checkUsername(data[0])) // if the username is taken
 		{
-			ManagerDAO mdao = new ManagerDAOImpl();
-			if(mdao.addManager(new Manager(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))
+			dis = request.getRequestDispatcher("SignUp.html");
+			dis.include(request, response);
+			out.println("<br/><br/>Username was taken");
+		}
+		else if(data[7] != null)
+		{
+			if(data[7].equals(adminCode))
 			{
-				dis = request.getRequestDispatcher("Login.html");
+				ManagerDAO mdao = new ManagerDAOImpl();
+				if(mdao.addManager(new Manager(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))
+				{
+					dis = request.getRequestDispatcher("Login.html");
+					dis.include(request, response);
+					out.println("Account Created.");
+				}
+			}
+			else
+			{
+				dis = request.getRequestDispatcher("SignUp.html");
 				dis.include(request, response);
-				out.println("Account Created.");
+				out.println("<br/>Invalid Access Code. Please Contact an Admin.");
 			}
 		}
 		else if (dao.addEmployee( new Employee(-1, data[0], data[1], data[2], data[3], data[4], data[5], data[6], new Date(System.currentTimeMillis()) )))

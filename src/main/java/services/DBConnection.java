@@ -60,6 +60,7 @@ public class DBConnection
 				con.close();	
 
 			con = null;
+			System.out.println("Connection closed");
 		}
 		catch (SQLException e) 
 		{

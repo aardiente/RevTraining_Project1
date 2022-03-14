@@ -10,8 +10,8 @@
 <link rel="stylesheet" type="text/css" href="Style.css">
 <meta charset="ISO-8859-1">
 <%
-	ManagerDAO dao = new ManagerDAOImpl();
-	Manager user = dao.getByUsername( session.getAttribute("username").toString() );
+ManagerDAO dao = new ManagerDAOImpl();
+	Manager user = dao.searchByUsername( session.getAttribute("username").toString() );
 	
 	StringBuffer url = request.getRequestURL();
 	String res = JSPHelper.urlParser(url.toString());
@@ -29,13 +29,13 @@
 	      <div class="collapse navbar-collapse" id="navbarCollapse">
 	        <ul class="navbar-nav me-auto mb-2 mb-md-0">
 	          <li class="nav-item">
-	            <a class="nav-link active" aria-current="page" href="#">Home</a>
+	            <a class="nav-link active" aria-current="page" href="ManagerHome.jsp">Home</a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">View Pending Reimbursements</a>
+	            <a class="nav-link" href="ManagePending.jsp">View Pending</a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">View Archived Reimbursements</a>
+	            <a class="nav-link" href="#">View Archived</a>
 	          </li>
 	        </ul>
 		 </div>

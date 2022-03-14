@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
@@ -116,7 +117,7 @@ public class RequestDAOImpl implements RequestDAO
 				while(set.next())
 				{
 					temp = dao.searchById(id);
-					mTemp = mdao.getById(set.getInt(6));
+					mTemp = mdao.searchById(set.getInt(6));
 					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
 				}
 				
@@ -135,6 +136,53 @@ public class RequestDAOImpl implements RequestDAO
 		}
 		
 		return tickList;
+	}
+
+	@Override
+	public ArrayList<ReimbursmentTicket> getAllPending() 
+	{
+		ArrayList<ReimbursmentTicket> tickList = new ArrayList<ReimbursmentTicket>();
+		Statement state = null;
+		Connection con = DBConnection.getConnection();
+		try 
+		{
+			state = con.createStatement();
+
+			if(state.execute("select request_id, request_amount, request_date, request_status, fk_employeeid_owner from ReimbursmentRequest"))
+			{
+				ResultSet set = state.getResultSet();
+				Employee temp = null;
+				EmployeeDAO dao = new EmployeeDAOImpl();
+				
+				Manager mTemp = null;
+				while(set.next())
+				{
+					temp = dao.searchById(set.getInt(5));
+					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getInt(4), temp));
+				}
+				
+			}
+			state.close();
+		} catch (SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}finally
+		{
+			DBConnection.closeConnection(con);
+			try {
+				state.close();
+			} catch (NullPointerException|SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return tickList;
+	}
+
+	@Override
+	public ArrayList<ReimbursmentTicket> getAllArchived() 
+	{
+		return null;
 	}
 
 }

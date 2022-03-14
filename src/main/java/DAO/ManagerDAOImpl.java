@@ -62,7 +62,7 @@ public class ManagerDAOImpl implements ManagerDAO {
 	}
 
 	@Override
-	public Manager getById(int id) 
+	public Manager searchById(int id) 
 	{
 		Manager ref = null;
 		PreparedStatement state = null;
@@ -95,7 +95,7 @@ public class ManagerDAOImpl implements ManagerDAO {
 	}
 
 	@Override
-	public Manager getByUsername(String username) {
+	public Manager searchByUsername(String username) {
 		Connection con = DBConnection.getConnection();
 		Manager temp = null;
 		

@@ -39,44 +39,44 @@
 		</div>
 	</nav>
 <div class="container-fluid">
-	<form action="SignUp" class="SignUpForm" id="SignUpForm" method="Post"
+	<form action="SignUp" class="SignUpForm was-validated" id="SignUpForm" method="Post"
 		onSubmit="return validateFields()">
 
 		<div class="row g-3">
 			<div class="col-12">
 				<label for="usernameTB" class="form-label"> Username </label> <input
-					type="text" name="username" id="usernameTB" class="form-control">
+					type="text" name="username" id="usernameTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-6">
 				<label for="passwordTB" class="form-label"> Password </label> <input
 					type="password" name="password" id="passwordTB"
-					class="form-control">
+					class="form-control is-invalid" required>
 			</div>
 			<div class="col-6">
 				<label for="conpasswordTB" class="form-label"> Confirm Password </label> <input
 					type="password" name="conpassword" id="conpasswordTB"
-					class="form-control">
+					class="form-control is-invalid" required>
 			</div>
 			<div class="col-sm-6">
 				<label for="fnameTB" class="form-label"> First Name </label> <input
-					type="text" name="fname" id="fnameTB" class="form-control">
+					type="text" name="fname" id="fnameTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-sm-6">
 				<label for="lnameTB" class="form-label"> Last Name </label> <input
-					type="text" name="lname" id="lnameTB" class="form-control">
+					type="text" name="lname" id="lnameTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-12">
 				<label for="emailTB" class="form-label"> Email </label> <input
-					type="text" name="email" id="emailTB" class="form-control">
+					type="text" name="email" id="emailTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-12">
 				<label for="addressTB" class="form-label"> Address </label> <input
-					type="text" name="address" id="addressTB" class="form-control">
+					type="text" name="address" id="addressTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-12">
 				<label for="phonenumberTB" class="form-label"> Phone Number
 				</label> <input type="text" name="phonenumber" id="phonenumberTB"
-					class="form-control">
+					class="form-control is-invalid" required>
 			</div>
 			<div class="col-3">
 				<div id="accessCodeDiv">
