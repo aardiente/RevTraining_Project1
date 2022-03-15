@@ -36,6 +36,18 @@
   	<description></description>
   	<servlet-class>Controllers.ManageRequestsController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ArchiveController</servlet-name>
+  	<display-name>ArchiveController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.ArchiveController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ViewArchivesController</servlet-name>
+  	<display-name>ViewArchivesController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.ViewArchivesController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginController</servlet-name>
   	<url-pattern>/LoginController</url-pattern>
@@ -67,6 +79,18 @@
   <servlet-mapping>
   	<servlet-name>ManageRequestsController</servlet-name>
   	<url-pattern>/ManageRequests</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ArchiveController</servlet-name>
+  	<url-pattern>/ArchiveController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ArchiveController</servlet-name>
+  	<url-pattern>/Archive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ViewArchivesController</servlet-name>
+  	<url-pattern>/ViewArchivesController</url-pattern>
   </servlet-mapping>
 
 </web-app>

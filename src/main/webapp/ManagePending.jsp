@@ -36,7 +36,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	            <a class="nav-link active" href="ManagePending.jsp">View Pending</a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">View Archived</a>
+	            <a class="nav-link" href="ManageArchives.jsp">View Archived</a>
 	          </li>
 	        </ul>
 		 </div>
@@ -63,11 +63,11 @@ ManagerDAO dao = new ManagerDAOImpl();
 		</form>	
 	</div>
 <br/>
-<div class="pendingTable">
-	<form class="updateTicket">
+<div class="form-check">
+	<form class="updateTicket" action="Archive" method="get">
 	<table class="table table-dark">
 	<% 
-		ArrayList<ReimbursmentTicket> tickList = (ArrayList<ReimbursmentTicket>)session.getAttribute("formList");
+		ArrayList<ReimbursmentTicket> tickList = (ArrayList<ReimbursmentTicket>)session.getAttribute("formList"); // I know this is an arrayList lol...
 		Boolean editFlag = ((Boolean)session.getAttribute("editFlag"));
 		if(tickList != null)
 		{ %>
@@ -93,19 +93,21 @@ ManagerDAO dao = new ManagerDAOImpl();
 				<td> <%=t.getStatus()%> </td>
 				<% if(editFlag != null && editFlag.booleanValue()) {%>
 				<td><div class="radioField">
-					<input type="radio" id="radPending" name="radio<%=t.getId()%>"	value="Pending" checked> Pending
-					<input type="radio" id="radApprove" name="radio<%=t.getId()%>" 	value="Approve"> Approve
-					<input type="radio" id="radDeny" 	name="radio<%=t.getId()%>" 	value="Deny"> Deny
+					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>"	value="Pending" checked> Pending &emsp;&emsp;
+					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>" value="Approve"> Approve
+					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>" value="Deny"> Deny
 				</div></td>
 			
 			   </tr> <%}
 			}
-		}
-		if(editFlag != null && editFlag.booleanValue()) 
-		{%>
+		}%>
+	</table>
+		<%if(editFlag != null && editFlag.booleanValue()) 
+		{
+			session.setAttribute("formList", tickList);%>
+			
 			<input type="submit" name="updateTicketBtn" class="btn btn-primary" value="Update">
 		<%}%>
-	</table>
 </form>
 </div>
 	

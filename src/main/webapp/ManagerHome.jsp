@@ -35,7 +35,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	            <a class="nav-link" href="ManagePending.jsp">View Pending</a>
 	          </li>
 	          <li class="nav-item">
-	            <a class="nav-link" href="#">View Archived</a>
+	            <a class="nav-link" href="ManageArchives.jsp">View Archived</a>
 	          </li>
 	        </ul>
 		 </div>

@@ -179,11 +179,6 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		return emp;
 	}
 
-	@Override
-	public void finalize()
-	{
-		//DBConnection.closeConnection(con);
-	}
 
 	@Override
 	public ArrayList<Employee> getAllEmployees() 

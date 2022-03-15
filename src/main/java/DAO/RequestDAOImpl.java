@@ -21,6 +21,7 @@ public class RequestDAOImpl implements RequestDAO
 	private static final String getAllPendingSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
 	private static final String getAllArchivedSQL = "select reimbursement_id, reimbursement_amount, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
 	private static final String archiveRequestSQL = "{? = call archiveReimbursement(?, ?, ?, ?, ?)}"; // Id ref = amount, date, status, ownerId, manId
+	private static final String getAllArchived = "select reimbursement_id, reimbursement_amount, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid, fk_employeeid_owner from ReimbursmentArchive";
 	@Override
     public boolean createRequest(ReimbursmentTicket obj) 
 	{
@@ -217,7 +218,40 @@ public class RequestDAOImpl implements RequestDAO
 	@Override
 	public ArrayList<ReimbursmentTicket> getAllArchived() 
 	{
-		return null;
+		Statement state = null;
+		Connection con = null;
+		ArrayList<ReimbursmentTicket> tList = new ArrayList<ReimbursmentTicket>();
+		
+		try 
+		{
+			con = DBConnection.getConnection();
+			state = con.createStatement();
+			
+			if(state.execute(getAllArchived))
+			{
+				ResultSet set = state.getResultSet();
+				Employee temp = null;
+				EmployeeDAO dao = new EmployeeDAOImpl();
+				ManagerDAO mdao = new ManagerDAOImpl();
+				
+				Manager mTemp = null;
+				while(set.next())
+				{
+					temp = dao.searchById(set.getInt(7));
+					mTemp = mdao.searchById(set.getInt(6));
+					tList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
+				}
+			}
+			
+		} catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally
+		{
+			DBConnection.closeConnection(con);
+		}
+		return tList;
 	}
 
 }
