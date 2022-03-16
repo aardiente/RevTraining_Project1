@@ -8,6 +8,10 @@
 <meta charset="ISO-8859-1">
 <title>Pending Requests</title>
 
+
+
+</head>
+<body>
  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
  <div class="container-fluid">
      <a class="navbar-brand" href="index.jsp">ERS</a>
@@ -23,20 +27,23 @@
            <a class="nav-link " href="CreateRequest.jsp">Make Request</a>
          </li>
          <li class="nav-item">
-           <a class="nav-link active" href="ViewRequest.jsp">View Request</a>
+           <a class="nav-link active" href="ViewRequests.jsp">View Request</a>
          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="UpdateEmployee.jsp">Update Info</a>
+          </li>
        </ul>
+       	<form action="ViewRequestsController" method="post">
+		<input type="submit" value="View Pending" name="pendingBtn" id="pendingBtn" class="btn btn-light" value="View Pending"> | 
+		<input type="submit" value="View All"  name="viewAllBtn" id="viewAllBtn" class="btn btn-light" value="View All">
+		
+	</form>
  </div>
  </div>
  </nav>
 
-</head>
-<body>
+
 	<br/>
-	<form action="ViewRequestsController" method="post">
-		<input type="submit" value="View Pending" name="pendingBtn" id="pendingBtn" class="btn btn-dark" value="View Pending"> | 
-		<input type="submit" value="View All"  name="viewAllBtn" id="viewAllBtn" class="btn btn-dark" value="View All">
-		
-	</form>
+
 </body>
 </html>

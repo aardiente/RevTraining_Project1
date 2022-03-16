@@ -37,10 +37,14 @@
 	          <li class="nav-item">
 	            <a class="nav-link" href="ViewRequests.jsp">View Request</a>
 	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="UpdateEmployee.jsp">Update Info</a>
+	          </li>
 	        </ul>
 		 </div>
 		 </div>
 		 </nav>
+		 <br/>
 		 <h3> Hello <%= user.getFirstName() + " " + user.getLastName() %> </h3>
 </body>
 </html>

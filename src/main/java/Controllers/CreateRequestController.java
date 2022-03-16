@@ -35,29 +35,15 @@ public class CreateRequestController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setContentType("text/html");
-		
-		String amountStr = request.getParameter("AmountField");
-		
-		PrintWriter out = response.getWriter();
-	
 
-		//out.println("<html><body>");
-		//out.println("Login attempt to " + user + (result ? " is successful" : " has failed" ) + "</body></html>");
-		
+		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession(); 
 		RequestDispatcher dis = null;
 
 		Employee emp = (Employee) session.getAttribute("CurEmp");
+		String amountStr = request.getParameter("amountTB");
+		System.out.println(amountStr);
 		
 		if(emp != null)
 		{
@@ -67,8 +53,17 @@ public class CreateRequestController extends HttpServlet {
 	
 		}
 
+		session.setAttribute("CurEmp", emp);
 		dis = request.getRequestDispatcher("CreateRequest.jsp");
 		dis.include(request, response);
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 
 	}
 

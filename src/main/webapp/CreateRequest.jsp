@@ -8,6 +8,12 @@
 <meta charset="ISO-8859-1">
 <title>Creating request for <%= session.getAttribute("username") %></title>
 
+
+
+</head>
+
+<script type="text/javascript" src="FieldValidation.js"></script>
+<body>
 	 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		 <div class="container-fluid">
 	      <a class="navbar-brand" href="index.jsp">ERS</a>
@@ -25,25 +31,33 @@
 	          <li class="nav-item">
 	            <a class="nav-link" href="ViewRequests.jsp">View Request</a>
 	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="UpdateEmployee.jsp">Update Info</a>
+	          </li>
 	        </ul>
 		 </div>
 		 </div>
 	 </nav>
+<br/><br/>
+<div class="container-fluid">
+ <form class="RequestForm was-validated" id="CreateRequestForm" action="CreateRequest" method="get" onsubmit="return validateAmount()">
+	<div class="row g-3">
+		<div class="col-4">
+			<label for="amountTB" class="form-label"> Amount </label> 
+			<input type="number" name="amountTB" class="form-control" required>
+		</div>
+		<div class="col-8"></div>
+		<div class="col-8">
+			<label for="descriptionTB" class="form-label"> Description </label> 
+			<input type="text" name="descriptionTB" id="descriptionTB" class="form-control input-lg">
+		</div>
+		<div class="col-4"></div>
+		<div class="col-4">
+		<input class="btn bt-lg btn btn-dark" id="submitBtn" type="submit" value="Confirm request">
+		</div>
+	</div>
+ </form>
+</div>
 
-</head>
-
-<script type="text/javascript" src="FieldValidation.js"></script>
-<body>
-	oh hi der
-	<form id="CreateRequestForm" action="CreateRequest" method="post" onsubmit="return validateAmount()">
-	<table>
-		<tr> <td>Amount: </td> <td><input type="number" name="AmountField" id="amountTB"></td> </tr>
-		<!-- Here I can add a field to take recipt image information... IF I HAD ONE -->
-		<!-- Here I can add a field to take location information... IF I HAD ONE -->
-		<tr> <td> <input id="submitBtn" type="submit" value="Confirm request"> </td> </tr>
-	</table>
-	</form>
-
-	<a href="EmployeeHome.jsp">Return</a>
 </body>
 </html>

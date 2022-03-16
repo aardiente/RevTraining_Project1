@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.postgresql.ssl.DbKeyStoreSocketFactory.DbKeyStoreSocketException;
 
 import Models.Employee;
+import Models.Manager;
 import services.DBConnection;
 
 public class EmployeeDAOImpl implements EmployeeDAO 
@@ -24,7 +25,9 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	private String deleteEmployee = "call deleteEmployee(?)";
 	private String backupSearch = "select employee_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Employee join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where user_name = ?";
 	private String getById = "select employee_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Employee join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where employee_id = ?";
-	
+	private static final String updateEmployee
+	= "UPDATE public.contact_info SET first_name=?, last_name=?, email=?, address=?, phone_number=? from useraccount u join employee e on u.user_id = e.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE e.employee_id =?";
+
 	@Override
 	public boolean addEmployee(Employee ref) 
 	{
@@ -72,9 +75,40 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	}
 
 	@Override
-	public boolean updateEmployee(Employee ref) 
+	public boolean updateEmployee(Employee obj) 
 	{
-		return false;
+		boolean flag = false;
+		
+		PreparedStatement state = null;
+		Connection con = null;
+		
+		try 
+		{
+			con = DBConnection.getConnection();
+			state = con.prepareStatement(updateEmployee);
+			state.setString(1, obj.getFirstName());
+			state.setString(2, obj.getLastName());
+			state.setString(3, obj.getEmail());
+			state.setString(4, obj.getAddress());
+			state.setString(5, obj.getPhoneNum());
+			
+			state.setInt(6, obj.getId());
+			
+			flag = state.execute();
+			
+			
+			
+		} catch (SQLException e) 
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBConnection.closeConnection(con);
+		}
+		
+		
+		
+		return flag;
 	}
 
 	@Override
@@ -271,4 +305,5 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		
 		return flag;
 	}
+	
 }

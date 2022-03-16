@@ -54,6 +54,12 @@
   	<description></description>
   	<servlet-class>Controllers.UpdateManager</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UpdateEmployeeController</servlet-name>
+  	<display-name>UpdateEmployeeController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.UpdateEmployeeController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginController</servlet-name>
   	<url-pattern>/LoginController</url-pattern>
@@ -101,6 +107,14 @@
   <servlet-mapping>
   	<servlet-name>UpdateManager</servlet-name>
   	<url-pattern>/UpdateManager</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UpdateEmployeeController</servlet-name>
+  	<url-pattern>/UpdateEmployeeController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UpdateEmployeeController</servlet-name>
+  	<url-pattern>/UpdateEmployee</url-pattern>
   </servlet-mapping>
 
 </web-app>
