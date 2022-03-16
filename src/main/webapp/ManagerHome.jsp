@@ -37,7 +37,11 @@ ManagerDAO dao = new ManagerDAOImpl();
 	          <li class="nav-item">
 	            <a class="nav-link" href="ManageArchives.jsp">View Archived</a>
 	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="UpdateManager.jsp">Update Info</a>
+	          </li>
 	        </ul>
+	        <a class="nav-link" href="index.jsp">Sign Out</a>
 		 </div>
 		 </div>
 		 </nav>

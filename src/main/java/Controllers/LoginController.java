@@ -47,7 +47,7 @@ public class LoginController extends HttpServlet
 	{
 		response.setContentType("text/html");
 		
-		String user = request.getParameter("loginUser");
+		String user = request.getParameter("loginUser").toLowerCase();
 		String pass = request.getParameter("loginPass");
 		PrintWriter out = response.getWriter();
 		
@@ -67,7 +67,7 @@ public class LoginController extends HttpServlet
 				if(temp != null)
 					session.setAttribute("CurEmp", temp);
 				
-				System.out.println(temp);
+				System.out.println("Signed in as " + temp);
 			
 				dis = request.getRequestDispatcher("EmployeeHome.jsp");
 			}
@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet
 				if(temp != null)
 					session.setAttribute("CurMan", temp);
 				
-				System.out.println(temp);
+				System.out.println("Signed in as " + temp);
 				dis = request.getRequestDispatcher("ManagerHome.jsp");
 			}
 			session.setAttribute("username", user);

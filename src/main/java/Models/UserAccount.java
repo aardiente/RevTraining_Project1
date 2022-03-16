@@ -9,8 +9,7 @@ public class UserAccount
 	protected String username, password, firstName, lastName, email, phoneNum, address;
 	protected Date dateActivated;
 	
-	public UserAccount(int id, String username, String password, String firstName, String lastName, String email,
-						String phoneNum, String address, Date dateActivated) 
+	public UserAccount(int id, String username, String password, String firstName, String lastName, String email, String phoneNum, String address, Date dateActivated) 
 	{
 		super();
 		this.id = id;

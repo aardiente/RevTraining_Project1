@@ -36,13 +36,16 @@ ManagerDAO dao = new ManagerDAOImpl();
 						href="ManagePending.jsp">View Pending</a></li>
 					<li class="nav-item"><a class="nav-link active" href="#">View
 							Archived</a></li>
+					<li class="nav-item">
+			            <a class="nav-link" href="UpdateManager.jsp">Update Info</a>
+			        </li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<br/>
 	
-<div class="form-check">
+<div class="">
 	<form class="updateTicket">
 	<table class="table table-dark">
 	<% 

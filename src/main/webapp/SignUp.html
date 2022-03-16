@@ -39,7 +39,7 @@
 		</div>
 	</nav>
 <div class="container-fluid">
-	<form action="SignUp" class="SignUpForm was-validated" id="SignUpForm" method="Post"
+	<form action="SignUpController" class="SignUpForm was-validated" id="SignUpForm" method="post"
 		onSubmit="return validateFields()">
 
 		<div class="row g-3">
@@ -69,9 +69,25 @@
 				<label for="emailTB" class="form-label"> Email </label> <input
 					type="text" name="email" id="emailTB" class="form-control is-invalid" required>
 			</div>
-			<div class="col-12">
+			<div class="col-9">
 				<label for="addressTB" class="form-label"> Address </label> <input
 					type="text" name="address" id="addressTB" class="form-control is-invalid" required>
+			</div>
+			<div class="col-3">
+				<label for="cityTB" class="form-label"> City </label> <input
+					type="text" name="city" id="cityTB" class="form-control is-invalid" required>
+			</div>
+			<div class="col-4">
+				<label for="stateTB" class="form-label"> State </label> <input
+					type="text" name="state" id="stateTB" class="form-control is-invalid" required>
+			</div>
+			<div class="col-4">
+				<label for="zipTB" class="form-label"> Zip </label> <input
+					type="number" name="zip" id="zipTB" class="form-control is-invalid" required>
+			</div>
+			<div class="col-4">
+				<label for="countryTB" class="form-label"> Country </label> <input
+					type="text" name="country" id="countryTB" class="form-control is-invalid" required>
 			</div>
 			<div class="col-12">
 				<label for="phonenumberTB" class="form-label"> Phone Number

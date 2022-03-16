@@ -14,8 +14,6 @@
 ManagerDAO dao = new ManagerDAOImpl();
 	Manager user = dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	StringBuffer url = request.getRequestURL();
-	String res = JSPHelper.urlParser(url.toString());
 %>
 <title>Logged In as <%= user.getUsername() %> </title>
 
@@ -38,32 +36,26 @@ ManagerDAO dao = new ManagerDAOImpl();
 	          <li class="nav-item">
 	            <a class="nav-link" href="ManageArchives.jsp">View Archived</a>
 	          </li>
+	          <li class="nav-item">
+	            <a class="nav-link" href="UpdateManager.jsp">Update Info</a>
+	          </li>
 	        </ul>
+	        <form class="ManagerSearchByUserForm" action="ManageRequestsController" method="get">
+
+					<input type="submit"  name="viewBtn" id="viewBtn" class="btn btn-light" value="View All">
+					<input type="submit"  name="editBtn" id="editBtn" class="btn btn-success" value="Edit">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
+					<input type="text" name="searchTB" id="searchTB"  placeholder="Employee Username">
+					<input type="submit" name="searchBtn" id="searchBtn" class="btn btn-light" value="Search">
+		
+			</form>
 		 </div>
 		 </div>
 		 </nav>
 		 
 	<br/>
-	<div class="container-fluid">
 
-		<form class="ManagerControlsForm" action="ManageRequestsController" method="get">
-		<div class="row">
-			<div class="col-sm">
-				<input type="submit"  name="viewBtn" id="viewBtn" class="btn btn-dark" value="View All">
-				<input type="submit"  name="editBtn" id="editBtn" class="btn btn-dark" value="Edit">
-			</div>
-
-			<div class="col-sm">
-				<input type="text" name="searchTB" id="searchTB" class="form-control" placeholder="Employee Username">
-			</div>
-			<div class="col-sm">
-				<input type="submit" name="searchBtn" id="searchBtn" class="btn btn-dark" value="Search">
-			</div>
-		</div>
-		</form>	
-	</div>
-<br/>
-<div class="form-check">
+<div class="overflow-auto">
 	<form class="updateTicket" action="Archive" method="get">
 	<table class="table table-dark">
 	<% 

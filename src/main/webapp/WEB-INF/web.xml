@@ -48,6 +48,12 @@
   	<description></description>
   	<servlet-class>Controllers.ViewArchivesController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>UpdateManager</servlet-name>
+  	<display-name>UpdateManager</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.UpdateManager</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginController</servlet-name>
   	<url-pattern>/LoginController</url-pattern>
@@ -91,6 +97,10 @@
   <servlet-mapping>
   	<servlet-name>ViewArchivesController</servlet-name>
   	<url-pattern>/ViewArchivesController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UpdateManager</servlet-name>
+  	<url-pattern>/UpdateManager</url-pattern>
   </servlet-mapping>
 
 </web-app>

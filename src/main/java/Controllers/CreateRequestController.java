@@ -67,7 +67,7 @@ public class CreateRequestController extends HttpServlet {
 	
 		}
 
-		dis = request.getRequestDispatcher("EmployeeHome.jsp");
+		dis = request.getRequestDispatcher("CreateRequest.jsp");
 		dis.include(request, response);
 
 	}
