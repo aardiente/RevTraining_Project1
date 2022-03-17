@@ -81,16 +81,18 @@ public class ReimbursmentTicket
 	}
 	private int id;
 	private float amount;
+	private String description;
 	private Date requestDate;
 	private Date closeDate;
 	private statusFlag status;
 	private Employee owner;
 	private Manager auditor;
 	
-	public ReimbursmentTicket(int id, float amount, Date requestDate, int status, Employee ref) {
+	public ReimbursmentTicket(int id, float amount, String description, Date requestDate, int status, Employee ref) {
 		super();
 		this.id = id;
 		this.amount = amount;
+		this.description = description;
 		this.requestDate = requestDate;
 		this.status = statusFlag.getStatusFlag(status);
 		owner = ref;
@@ -114,8 +116,8 @@ public class ReimbursmentTicket
 		this.auditor = auditor;
 	}
 
-	public ReimbursmentTicket(int id, float amount, Date requestDate, Date closeDate, int status, Employee ref, Manager mref) {
-		this(id, amount, requestDate, status, ref);
+	public ReimbursmentTicket(int id, float amount, String description, Date requestDate, Date closeDate, int status, Employee ref, Manager mref) {
+		this(id, amount, description, requestDate, status, ref);
 		this.closeDate = closeDate;
 		auditor = mref;
 	}
@@ -164,6 +166,14 @@ public class ReimbursmentTicket
 
 	public void setOwner(Employee owner) {
 		this.owner = owner;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String desciption) {
+		this.description = desciption;
 	}
 
 	

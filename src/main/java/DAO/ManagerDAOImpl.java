@@ -87,6 +87,7 @@ public class ManagerDAOImpl implements ManagerDAO {
 							set.getString(5), set.getString(6), set.getString(7), set.getString(8), set.getDate(9));
 				}
 			}
+			state.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,6 +119,7 @@ public class ManagerDAOImpl implements ManagerDAO {
 							set.getString(5), set.getString(6), set.getString(8), set.getString(7), set.getDate(9));
 				}
 			}
+			state.close();
 			
 		} catch (SQLException e) 
 		{
@@ -154,10 +156,8 @@ public class ManagerDAOImpl implements ManagerDAO {
 			
 			state.setInt(6, obj.getId());
 			
-			flag = state.execute();
-			
-			
-			
+			flag = state.executeUpdate() > 0;
+			state.close();
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();

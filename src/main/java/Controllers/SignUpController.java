@@ -14,6 +14,7 @@ import DAO.EmployeeDAO;
 import DAO.EmployeeDAOImpl;
 import DAO.ManagerDAO;
 import DAO.ManagerDAOImpl;
+import DAO.UserAccountDAO;
 import DAO.UserAccountDAOImpl;
 import Models.Employee;
 import Models.Manager;
@@ -63,11 +64,18 @@ public class SignUpController extends HttpServlet {
 		
 		String comAddress = data[6] + ", " + data[7] + " " + data[8] + " " + data[9] + " " + data[10];
 		System.out.println(comAddress);
-		if(!new UserAccountDAOImpl().checkUsername(data[0])) // if the username is taken
+		UserAccountDAO udao = new UserAccountDAOImpl();
+		if(!udao.checkUsername(data[0])) // if the username is taken
 		{
 			dis = request.getRequestDispatcher("SignUp.html");
 			dis.include(request, response);
 			out.println("<br/><br/>Username was taken");
+		}
+		else if(!udao.checkEmail(data[4]))
+		{
+			dis = request.getRequestDispatcher("SignUp.html");
+			dis.include(request, response);
+			out.println("<br/><br/>email was taken");
 		}
 		else if(data[11] != null)
 		{

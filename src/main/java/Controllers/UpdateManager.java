@@ -37,6 +37,8 @@ public class UpdateManager extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		ManagerDAO dao = new ManagerDAOImpl();
+		String resName = "resFlag";
+		
 		String[] data = {
 						request.getParameter("username"),	request.getParameter("password"),	request.getParameter("fname"),				// 0 1 2
 						request.getParameter("lname"),		request.getParameter("email"),		request.getParameter("phonenumber"), 		// 3 4 5
@@ -49,6 +51,7 @@ public class UpdateManager extends HttpServlet {
 		
 		HttpSession session = request.getSession(); 
 		Manager man = (Manager)session.getAttribute("CurMan");
+		session.setAttribute(resName, null);
 		
 		if(man != null)
 		{
@@ -60,7 +63,10 @@ public class UpdateManager extends HttpServlet {
 			man.setAddress(add);
 			
 			System.out.println(man);
-			dao.updateManager(man);
+			if(dao.updateManager(man))
+				session.setAttribute(resName, true);
+			else
+				session.setAttribute(resName, false);
 		}
 		
 		dis = request.getRequestDispatcher("UpdateManager.jsp");

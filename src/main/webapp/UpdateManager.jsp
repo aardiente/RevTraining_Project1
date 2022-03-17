@@ -60,6 +60,8 @@
 							{
 								tCountry += " " + temp2[i];
 							}
+		Boolean flag = (Boolean)session.getAttribute("resFlag");
+		
 	%>
 
 <div class="container-fluid">
@@ -67,9 +69,15 @@
 		onSubmit="return validateFields()">
 
 		<div class="row g-3">
+				<%if(flag != null)
+				{%>
+					<div class="col-12">
+						<h1 style="color:<%=(flag.booleanValue() ? "blue" : "red")%>;"><%= "Update " + (flag.booleanValue() ? " was succesful" : " has failed") %></h1>
+					</div>
+				<%}%>
 			<div class="col-12">
 				<label for="usernameTB" class="form-label"> Username </label> <input
-					type="text" name="username" id="usernameTB" class="form-control is-invalid" value="<%=user.getUsername() %>" readonly>
+					type="text" name="username" id="usernameTB" class="form-control is-valid" value="<%=user.getUsername() %>" readonly>
 			</div>
 			<div class="col-sm-6">
 				<label for="fnameTB" class="form-label"> First Name </label> <input
@@ -81,7 +89,7 @@
 			</div>
 			<div class="col-12">
 				<label for="emailTB" class="form-label"> Email </label> <input
-					type="text" name="email" id="emailTB" class="form-control is-invalid"  value="<%=user.getEmail() %>" required>
+					type="text" name="email" id="emailTB" class="form-control is-valid"  value="<%=user.getEmail() %>" readonly>
 			</div>
 			<div class="col-12">
 				<label for="addressTB" class="form-label"> Street </label> <input

@@ -43,12 +43,13 @@ public class CreateRequestController extends HttpServlet {
 
 		Employee emp = (Employee) session.getAttribute("CurEmp");
 		String amountStr = request.getParameter("amountTB");
+		String descStr = request.getParameter("descriptionTB");
 		System.out.println(amountStr);
 		
 		if(emp != null)
 		{
 			RequestDAO dao = new RequestDAOImpl();
-			ReimbursmentTicket ref = new ReimbursmentTicket(-1, Float.valueOf(amountStr), null, 0, emp);
+			ReimbursmentTicket ref = new ReimbursmentTicket(-1, Float.valueOf(amountStr), descStr, null, 0, emp);
 			dao.createRequest(ref);
 	
 		}

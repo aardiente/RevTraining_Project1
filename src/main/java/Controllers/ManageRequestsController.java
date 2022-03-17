@@ -114,6 +114,7 @@ public class ManageRequestsController extends HttpServlet {
 					for(ReimbursmentTicket t : tickList)
 						System.out.println(t);
 				}
+				else tickList = null;
 			}
 		}
 

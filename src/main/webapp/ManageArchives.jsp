@@ -17,7 +17,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 	StringBuffer url = request.getRequestURL();
 	String res = JSPHelper.urlParser(url.toString());
 %>
-<title>Logged In as <%= user.getUsername() %> </title>
+<title>Logged In as <% if(user != null)%><%=user.getUsername() %> </title>
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		<div class="container-fluid">
@@ -53,27 +53,30 @@ ManagerDAO dao = new ManagerDAOImpl();
 		ArrayList<ReimbursmentTicket> tickList = rdao.getAllArchived(); 
 		if(tickList != null)
 		{ %>
-			<thead><tr>
-				<th scope="col">Ticket Id</th>
-				<th scope="col">Employee Name</th> 
-				<th scope="col">Username</th> 
-				<th scope="col">Amount</th>
-				<th scope="col">Request Date</th> 
-				<th scope="col">Archive Date</th> 
-				<th scope="col">Status</th>
-				<th scope="col">By</th>
+			<thead>
+			<tr class="d-flex">
+				<th class="col-1" scope="col">Ticket Id</th>
+				<th class="col-1" scope="col">Username</th> 
+				<th class="col-1" scope="col">Amount</th>
+				<th class="col-4" scope="col">Description</th>
+				<th class="col-1" scope="col">Employee Name</th> 
+				<th class="col-1" scope="col">Request Date</th> 
+				<th class="col-1" scope="col">Archive Date</th> 
+				<th class="col-1" scope="col">Status</th>
+				<th class="col-1" scope="col">By</th>
 			</tr></thead>
 			<%for(ReimbursmentTicket t : tickList)
 			{
-			%> <tr>
-				<td> <%=t.getId()%> </td>
-				<td> <%=t.getOwner().getFirstName() + " " + t.getOwner().getLastName() %> </td>
-				<td> <%=t.getOwner().getUsername()%> </td>
-				<td> <%=t.getAmount()%> </td>
-				<td> <%=t.getRequestDate()%> </td>
-				<td> <%=t.getCloseDate()%> </td>
-				<td> <%=t.getStatus()%> </td>
-				<td> <%=t.getAuditor().getUsername()%> </td>
+			%> <tr class="d-flex">
+				<td class="col-1"> <%=t.getId()%> </td>
+				<td class="col-1"> <%=t.getOwner().getUsername()%> </td>
+				<td class="col-1"> $<%=t.getAmount()%> </td>
+				<td class="col-4"> <%=t.getDescription()%> </td>
+				<td class="col-1"> <%=t.getOwner().getFirstName() + " " + t.getOwner().getLastName() %> </td>
+				<td class="col-1"> <%=t.getRequestDate()%> </td>
+				<td class="col-1"> <%=t.getCloseDate()%> </td>
+				<td class="col-1"> <%=t.getStatus()%> </td>
+				<td class="col-1"> <%=t.getAuditor().getUsername()%> </td>
 <%			}
 		}%>
 	</table>

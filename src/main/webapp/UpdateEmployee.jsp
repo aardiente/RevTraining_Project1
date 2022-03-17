@@ -36,7 +36,7 @@
 	      <div class="collapse navbar-collapse" id="navbarCollapse">
 	        <ul class="navbar-nav me-auto mb-2 mb-md-0">
 	          <li class="nav-item">
-	            <a class="nav-link" aria-current="page" href="ManagerHome.jsp">Home</a>
+	            <a class="nav-link" aria-current="page" href="EmployeeHome.jsp">Home</a>
 	          </li>
 	          <li class="nav-item">
 	            <a class="nav-link" href="CreateRequest.jsp">Make Request</a>
@@ -74,7 +74,7 @@
 		<div class="row g-3">
 			<div class="col-12">
 				<label for="usernameTB" class="form-label"> Username </label> <input
-					type="text" name="username" id="usernameTB" class="form-control is-invalid" value="<%=user.getUsername() %>" readonly>
+					type="text" name="username" id="usernameTB" class="form-control is-valid" value="<%=user.getUsername() %>" readonly>
 			</div>
 			<div class="col-sm-6">
 				<label for="fnameTB" class="form-label"> First Name </label> <input
@@ -86,7 +86,7 @@
 			</div>
 			<div class="col-12">
 				<label for="emailTB" class="form-label"> Email </label> <input
-					type="text" name="email" id="emailTB" class="form-control is-invalid"  value="<%=user.getEmail() %>" required>
+					type="text" name="email" id="emailTB" class="form-control is-valid"  value="<%=user.getEmail() %>" readonly>
 			</div>
 			<div class="col-12">
 				<label for="addressTB" class="form-label"> Street </label> <input

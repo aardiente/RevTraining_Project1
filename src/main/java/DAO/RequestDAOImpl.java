@@ -17,11 +17,13 @@ import services.DBConnection;
 
 public class RequestDAOImpl implements RequestDAO 
 {
-	private static final String creRequestSQL = "{? = call createreimburmentrequest(?, ?)}";
-	private static final String getAllPendingSQL = "select request_id, request_amount, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
-	private static final String getAllArchivedSQL = "select reimbursement_id, reimbursement_amount, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
-	private static final String archiveRequestSQL = "{? = call archiveReimbursement(?, ?, ?, ?, ?)}"; // Id ref = amount, date, status, ownerId, manId
-	private static final String getAllArchived = "select reimbursement_id, reimbursement_amount, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid, fk_employeeid_owner from ReimbursmentArchive";
+	private static final String creRequestSQL = "{? = call createreimburmentrequest(?,?,?)}";
+	private static final String getAllPendingSQL = "select request_id, request_amount, request_description, request_date, request_status from ReimbursmentRequest where fk_employeeid_owner = ?";
+	private static final String getAllArchivedSQL = "select reimbursement_id, reimbursement_amount, reimbursement_description, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid from ReimbursmentArchive where fk_employeeid_owner = ?";
+	private static final String archiveRequestSQL = "{? = call archiveReimbursement(?, ?, ?, ?, ?, ?)}"; // Id ref = amount, desc, date, status, ownerId, manId
+	private static final String getAllArchived = "select reimbursement_id, reimbursement_amount, reimbursement_description, reimbursement_date, reimbursement_status, reimbursement_archived_date, fk_managerid, fk_employeeid_owner from ReimbursmentArchive";
+													
+	
 	@Override
     public boolean createRequest(ReimbursmentTicket obj) 
 	{
@@ -33,7 +35,9 @@ public class RequestDAOImpl implements RequestDAO
 			state.registerOutParameter(1, Types.INTEGER);
 			
 			state.setFloat(2, obj.getAmount());
-			state.setInt(3, obj.getOwner().getId());
+			state.setString(3, obj.getDescription());
+			state.setInt(4, obj.getOwner().getId());
+			
 			
 			if(state.executeUpdate() > 0)
 			{
@@ -75,10 +79,13 @@ public class RequestDAOImpl implements RequestDAO
 			state = con.prepareCall(archiveRequestSQL);
 			state.registerOutParameter(1, Types.INTEGER);
 			state.setFloat(2, obj.getAmount());
-			state.setDate(3, obj.getRequestDate());
-			state.setInt(4, obj.getStatus().getStatusAsInt());
-			state.setInt(5, obj.getOwner().getId());
-			state.setInt(6, manager.getId());
+			state.setString(3, obj.getDescription());
+			state.setDate(4, obj.getRequestDate());
+			state.setInt(5, obj.getStatus().getStatusAsInt());
+			state.setInt(6, obj.getOwner().getId());
+			state.setInt(7, manager.getId());
+			
+			
 			
 			obj.setAuditor(manager);
 			obj.setCloseDate(new Date(System.currentTimeMillis()));
@@ -118,7 +125,7 @@ public class RequestDAOImpl implements RequestDAO
 				while(set.next())
 				{
 					temp = dao.searchById(id);
-					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getInt(4), temp));
+					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getString(3), set.getDate(4), set.getInt(5), temp));
 				}
 			}
 		} catch (SQLException e) 
@@ -153,8 +160,8 @@ public class RequestDAOImpl implements RequestDAO
 				while(set.next())
 				{
 					temp = dao.searchById(id);
-					mTemp = mdao.searchById(set.getInt(6));
-					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
+					mTemp = mdao.searchById(set.getInt(7));
+					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getString(3), set.getDate(4), set.getDate(6), set.getInt(5), temp, mTemp));
 				}
 				
 			}
@@ -184,7 +191,7 @@ public class RequestDAOImpl implements RequestDAO
 		{
 			state = con.createStatement();
 
-			if(state.execute("select request_id, request_amount, request_date, request_status, fk_employeeid_owner from ReimbursmentRequest"))
+			if(state.execute("select request_id, request_amount, request_description, request_date, request_status, fk_employeeid_owner from ReimbursmentRequest"))
 			{
 				ResultSet set = state.getResultSet();
 				Employee temp = null;
@@ -193,8 +200,8 @@ public class RequestDAOImpl implements RequestDAO
 				Manager mTemp = null;
 				while(set.next())
 				{
-					temp = dao.searchById(set.getInt(5));
-					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getInt(4), temp));
+					temp = dao.searchById(set.getInt(6));
+					tickList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getString(3), set.getDate(4), set.getInt(5), temp));
 				}
 				
 			}
@@ -237,9 +244,10 @@ public class RequestDAOImpl implements RequestDAO
 				Manager mTemp = null;
 				while(set.next())
 				{
-					temp = dao.searchById(set.getInt(7));
-					mTemp = mdao.searchById(set.getInt(6));
-					tList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getDate(3), set.getDate(5), set.getInt(4), temp, mTemp));
+					// 1 rId, 2 rAmount, 3 rDesc, 4 rDate, 5 rStatus, 6 rArcDate, 7 fkMan, 8 fkEmp
+					temp = dao.searchById(set.getInt(8));
+					mTemp = mdao.searchById(set.getInt(7));
+					tList.add(new ReimbursmentTicket(set.getInt(1), set.getFloat(2), set.getString(3), set.getDate(4), set.getDate(6), set.getInt(5), temp, mTemp));
 				}
 			}
 			

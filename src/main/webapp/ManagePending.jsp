@@ -63,34 +63,57 @@ ManagerDAO dao = new ManagerDAOImpl();
 		Boolean editFlag = ((Boolean)session.getAttribute("editFlag"));
 		if(tickList != null)
 		{ %>
-			<thead><tr>
-				<th scope="col">Ticket Id</th>
-				<th scope="col">Employee Name</th> 
-				<th scope="col">Username</th> 
-				<th scope="col">Amount</th>
-				<th scope="col">Request Date</th> 
-				<th scope="col">Status</th>
-				<% if(editFlag != null && editFlag.booleanValue()) {%>
-				<th scope="col">Edit Controls</th>
-				<%} %>
+			<thead>
+			<tr class="d-flex">
+			<% if(editFlag != null && editFlag.booleanValue()) {%>
+				<th class="col-1" scope="col">Ticket Id</th>
+				<th class="col-1" scope="col">Username</th> 
+				<th class="col-1" scope="col">Amount</th>
+				<th class="col-3" scope="col">Description</th>
+				<th class="col-1" scope="col">Employee Name</th> 
+				<th class="col-1" scope="col">Request Date</th> 
+				<th class="col-1" scope="col">Status</th>
+				<th class="col-3" scope="col">Edit Controls</th>
+				<%}else{%>
+				<th class="col-1" scope="col">Ticket Id</th>
+				<th class="col-1" scope="col">Username</th> 
+				<th class="col-1" scope="col">Amount</th>
+				<th class="col-4" scope="col">Description</th>
+				<th class="col-2" scope="col">Employee Name</th> 
+				<th class="col-1" scope="col">Request Date</th> 
+				<th class="col-2" scope="col">Status</th>
+			
+				<%}%>
 			</tr></thead>
 			<%for(ReimbursmentTicket t : tickList)
 			{
-			%> <tr>
-				<td> <%=t.getId()%> </td>
-				<td> <%=t.getOwner().getFirstName() + " " + t.getOwner().getLastName() %> </td>
-				<td> <%=t.getOwner().getUsername()%> </td>
-				<td> <%=t.getAmount()%> </td>
-				<td> <%=t.getRequestDate()%> </td>
-				<td> <%=t.getStatus()%> </td>
-				<% if(editFlag != null && editFlag.booleanValue()) {%>
-				<td><div class="radioField">
-					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>"	value="Pending" checked> Pending &emsp;&emsp;
+				if(editFlag != null && editFlag.booleanValue()) {
+			%> <tr class="d-flex">
+				<td class="col-1"> <%=t.getId()%> </td>
+				<td class="col-1"> <%=t.getOwner().getUsername()%> </td>
+				<td class="col-1"> $<%=t.getAmount()%> </td>
+				<td class="col-3"> <%=t.getDescription()%> </td>
+				<td class="col-1"> <%=t.getOwner().getFirstName() + " " + t.getOwner().getLastName() %> </td>
+				<td class="col-1"> <%=t.getRequestDate()%> </td>
+				<td class="col-1"> <%=t.getStatus()%> </td>
+				<td class="col-3"><div class="radioField">
+					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>"	value="Pending" checked> Pending &emsp;
 					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>" value="Approve"> Approve
 					<input type="radio" id="radio<%=t.getId()%>" name="radio<%=t.getId()%>" value="Deny"> Deny
 				</div></td>
 			
 			   </tr> <%}
+				else
+				{
+				%> <tr class="d-flex">
+					<td class="col-1"> <%=t.getId()%> </td>
+					<td class="col-1"> <%=t.getOwner().getUsername()%> </td>
+					<td class="col-1"> $<%=t.getAmount()%> </td>
+					<td class="col-4"> <%=t.getDescription()%> </td>
+					<td class="col-2"> <%=t.getOwner().getFirstName() + " " + t.getOwner().getLastName() %> </td>
+					<td class="col-1"> <%=t.getRequestDate()%> </td>
+					<td class="col-2"> <%=t.getStatus()%> </td></tr>
+				<%}
 			}
 		}%>
 	</table>
