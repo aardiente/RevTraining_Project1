@@ -9,8 +9,10 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.postgresql.ssl.DbKeyStoreSocketFactory.DbKeyStoreSocketException;
 
+import Controllers.LoginController;
 import Models.Employee;
 import Models.Manager;
 import services.DBConnection;
@@ -18,6 +20,7 @@ import services.DBConnection;
 public class EmployeeDAOImpl implements EmployeeDAO 
 {
 	private Connection con; // This is a problem we need to sort out. Figure out a way to automate connections closing, make update DBConnection Class
+	private static Logger log = Logger.getLogger(EmployeeDAOImpl.class.getName());
 	
 	private String addEmployeeSql = "{? = call addEmployee(?, ?, ?, ?, ?, ?, ?)}";
 	private String findEmpByUserName = "select searchEmployeeByUserName(?)";
@@ -26,7 +29,7 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	private String backupSearch = "select employee_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Employee join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where user_name = ?";
 	private String getById = "select employee_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Employee join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where employee_id = ?";
 	private static final String updateEmployee
-	= "UPDATE public.contact_info SET first_name=?, last_name=?, email=?, address=?, phone_number=? from useraccount u join employee e on u.user_id = e.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE e.employee_id =?";
+	= "UPDATE public.contact_info SET first_name=?, last_name=?, address=?, phone_number=? from useraccount u join employee e on u.user_id = e.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE e.employee_id =?";
 
 	@Override
 	public boolean addEmployee(Employee ref) 
@@ -46,25 +49,27 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			state.setString(6, ref.getEmail());
 			state.setString(7, ref.getAddress());
 			state.setString(8, ref.getPhoneNum());
-			System.out.println(ref);
+			log.info("Attempting to addEmployee() " + ref);
 			
 			if(state.executeUpdate() == 0)
 			{
 				ref.setId( state.getInt(1) );
 				flag = true;
 			}
-			System.out.println(ref);
+			log.info("Attempt to addEmployee() " + ref + " | " + (flag ? " was successful" : " has failed"));
 		}
 		catch (SQLException e)
 		{
 			System.out.println(e.getMessage());
+			log.error("SQLException in addEmployee() | " + e.getMessage());
 		}
 		catch (NullPointerException e)
 		{
-			e.printStackTrace();
+			log.error("NullPointerException in addEmployee() | " + e.getMessage());
 		}catch (Exception e)
 		{
 			e.printStackTrace();
+			log.error("Caught loose exception in addEmployee() | " + e.getMessage());
 		}
 		finally
 		{
@@ -88,19 +93,20 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			state = con.prepareStatement(updateEmployee);
 			state.setString(1, obj.getFirstName());
 			state.setString(2, obj.getLastName());
-			state.setString(3, obj.getEmail());
-			state.setString(4, obj.getAddress());
-			state.setString(5, obj.getPhoneNum());
+			state.setString(3, obj.getAddress());
+			state.setString(4, obj.getPhoneNum());
 			
-			state.setInt(6, obj.getId());
+			state.setInt(5, obj.getId());
 			
 			flag = state.execute();
 			
-			
+			log.info("Update attempt in updateEmployee() | " + obj + (flag ? " was successful" : " has failed"));
+			state.close();
 			
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
+			log.error("SQLException in updateEmployee() | " + e.getMessage());
 		} finally
 		{
 			DBConnection.closeConnection(con);
@@ -131,14 +137,19 @@ public class EmployeeDAOImpl implements EmployeeDAO
 					temp = new Employee(Integer.valueOf(set.getString(1)), set.getString(2), set.getString(3), set.getString(4),
 							set.getString(5), set.getString(6), set.getString(8), set.getString(7), set.getDate(9)); // swap address and phone currently being assigned wrong
 				}
+				log.info("Result of searchByUsername() | " + temp);
 			}
+			
+			state.close();
 			
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
+			log.error("SQLException in searchByUsername() | " + e.getMessage());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			log.error("Loose exception in searchByUsername() | " + e.getMessage());
 		}
 		finally
 		{
@@ -166,18 +177,15 @@ public class EmployeeDAOImpl implements EmployeeDAO
 					flag = true;
 			}
 			
-			
+			log.info("Result of isEmployee() | " + flag);
+			state.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			log.error("SQLException in isEmployee() | " + e.getMessage());
 		} finally
 		{
 			DBConnection.closeConnection(con);
-			try {
-				state.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return flag;
 	}
@@ -205,6 +213,7 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			log.error("SQLException in isEmployee() | " + e.getMessage());
 		} finally
 		{
 			DBConnection.closeConnection(con);
@@ -237,11 +246,12 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			}
 		} catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error("SQLException in getAllEmployees() | " + e.getMessage());
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			log.error("Loose exception in getAllEmployees() | " + e.getMessage());
 		}
 		finally
 		{
@@ -254,13 +264,11 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	@Override
 	public boolean deleteEmployee(Employee ref) 
 	{
-		//if(con == null)
-		con = DBConnection.getConnection();
-		
 		boolean flag = false;
 		
 		try
 		{
+			con = DBConnection.getConnection();
 			CallableStatement state = con.prepareCall(deleteEmployee);
 			state.setString(1, ref.getUsername());
 			
@@ -268,9 +276,11 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
+			log.error("SQLException in deleteEmployee() | " + e.getMessage());
 		} catch(Exception e)
 		{
 			e.printStackTrace();
+			log.error("Loose exception in deleteEmployee() | " + e.getMessage());
 		}
 		finally
 		{
@@ -296,8 +306,8 @@ public class EmployeeDAOImpl implements EmployeeDAO
 			
 		} catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.error("SQLException in deleteEmployee() | " + e.getMessage());
 		}finally
 		{
 			DBConnection.closeConnection(con);

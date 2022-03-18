@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+
 import DAO.RequestDAO;
 import DAO.RequestDAOImpl;
 import Models.Manager;
@@ -18,9 +21,11 @@ import Models.ReimbursmentTicket;
 /**
  * Servlet implementation class ArchiveController
  */
+
 public class ArchiveController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	public static Logger log = Logger.getLogger(ArchiveController.class.getName());
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -48,17 +53,22 @@ public class ArchiveController extends HttpServlet {
 			{
 				Manager ref = (Manager)session.getAttribute("CurMan");
 				t.setStatus(ReimbursmentTicket.statusFlag.Approved);
-				dao.archiveRequest(t, ref);
+				log.info("Attempt to approve " + t + " was " + dao.archiveRequest(t, ref));
+				
+				
 			}
 			else if (val.equals("Deny"))
 			{
 				Manager ref = (Manager)session.getAttribute("CurMan");
 				t.setStatus(ReimbursmentTicket.statusFlag.Denied);
-				dao.archiveRequest(t, ref);
+				log.info("Attempt to deny " + t + " was " + dao.archiveRequest(t, ref));
 			}
 		}
 		tickList = dao.getAllPending();
+		
 		session.setAttribute("formList", tickList);
+		log.info("formList set to " + tickList);
+		
 		dis = request.getRequestDispatcher("ManagePending.jsp");
 		dis.include(request, response);
 	}

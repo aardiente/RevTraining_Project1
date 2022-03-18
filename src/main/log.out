@@ -1,0 +1,24 @@
+Login attempt tomanagertest is successful
+Result of isEmployee() | false
+Signed in as [Employee Id: 1 | Username: managertest | Password: -877169473 | Name: AnthonyArdiente | Email: test.manager@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Login attempt toemptest is successful
+Result of isEmployee() | true
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Signed in as [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+SQLException in updateEmployee() | ERROR: duplicate key value violates unique constraint "contact_info_email_key"
+  Detail: Key (email)=(test.emp@gmail.com) already exists.
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Login attempt toemptest is successful
+Result of isEmployee() | true
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Signed in as [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: AnthonyArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Update attempt in updateEmployee() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: SteveArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17] has failed
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: SteveArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
+Result of searchByUsername() | [Employee Id: 2 | Username: emptest | Password: -877169473 | Name: SteveArdiente | Email: test.emp@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-17]
