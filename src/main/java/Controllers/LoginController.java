@@ -17,6 +17,7 @@ import DAO.EmployeeDAOImpl;
 import DAO.ManagerDAOImpl;
 import Models.Employee;
 import Models.Manager;
+import Models.UserAccount;
 
 /**
  * Servlet implementation class LoginController
@@ -25,6 +26,8 @@ public class LoginController extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(LoginController.class.getName());
+	
+	public static UserAccount curUser = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -58,11 +61,13 @@ public class LoginController extends HttpServlet
 		EmployeeDAO dao = new EmployeeDAOImpl();
 		
 		boolean result =  dao.verifyLogin(user, pass);
-		String resString = "Login attempt to" + user + (result ? " is successful" : " has failed" );
+		String resString = "Login attempt to " + user + (result ? " is successful" : " has failed" );
+		session.setAttribute("loginRes", resString);
+		session.setAttribute("LoginFlag", true);
 		
 		log.info(resString);
 		
-		out.println("<html><footer>" + resString + "</footer></html>");
+		//out.println("<html><footer>" + resString + "</footer></html>");
 		
 		if(result)
 		{
@@ -75,6 +80,7 @@ public class LoginController extends HttpServlet
 				
 				log.info("Signed in as " + temp);
 			
+				curUser = temp;
 				dis = request.getRequestDispatcher("EmployeeHome.jsp");
 			}
 			else
@@ -85,6 +91,7 @@ public class LoginController extends HttpServlet
 					session.setAttribute("CurMan", temp);
 				
 				log.info("Signed in as " + temp);
+				curUser = temp;
 				dis = request.getRequestDispatcher("ManagerHome.jsp");
 			}
 			session.setAttribute("username", user);
@@ -92,9 +99,14 @@ public class LoginController extends HttpServlet
 		}
 		else
 		{
-			dis = request.getRequestDispatcher("Login.html");
+			dis = request.getRequestDispatcher("Login.jsp");
 		}
 		dis.include(request, response);
+	}
+	
+	public static UserAccount getCurrentUser()
+	{
+		return curUser;
 	}
 
 }

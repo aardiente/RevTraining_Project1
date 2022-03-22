@@ -11,9 +11,10 @@
 <link rel="stylesheet" type="text/css" href="Style.css">
 <meta charset="ISO-8859-1">
 <%
-ManagerDAO dao = new ManagerDAOImpl();
+	ManagerDAO dao = new ManagerDAOImpl();
 	Manager user = dao.searchByUsername( session.getAttribute("username").toString() );
 	
+	session.setAttribute("CurMan", user);
 %>
 <title>Logged In as <%= user.getUsername() %> </title>
 
@@ -21,7 +22,7 @@ ManagerDAO dao = new ManagerDAOImpl();
 <body>
 	 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		 <div class="container-fluid">
-	      <a class="navbar-brand" href="index.jsp">ERS</a>
+	      <a class="navbar-brand">ERS</a>
 	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -82,13 +83,12 @@ ManagerDAO dao = new ManagerDAOImpl();
 				<th class="col-2" scope="col">Employee Name</th> 
 				<th class="col-1" scope="col">Request Date</th> 
 				<th class="col-2" scope="col">Status</th>
-			
 				<%}%>
 			</tr></thead>
 			<%for(ReimbursmentTicket t : tickList)
 			{
-				if(editFlag != null && editFlag.booleanValue()) {
-			%> <tr class="d-flex">
+				if(editFlag != null && editFlag.booleanValue()) {%>
+			 <tr class="d-flex">
 				<td class="col-1"> <%=t.getId()%> </td>
 				<td class="col-1"> <%=t.getOwner().getUsername()%> </td>
 				<td class="col-1"> $<%=t.getAmount()%> </td>

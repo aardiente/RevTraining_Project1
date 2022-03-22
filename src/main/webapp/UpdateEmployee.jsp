@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
    <%@ page import="Models.*"%>
    <%@ page import="DAO.*"%>
+   <%@ page import="Controllers.LoginController"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +19,7 @@
 <link rel="shortcut icon" href="">
 <!-- Just so it shuts up. -->
 </head>
-<% Employee emp = (Employee)session.getAttribute("CurEmp"); 
+<% Employee emp = (Employee)LoginController.curUser;//session.getAttribute("CurEmp"); 
 	if(emp == null)
 	{
 		response.setStatus(response.SC_BAD_GATEWAY);
@@ -29,7 +30,7 @@
 <body>
 	 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		 <div class="container-fluid">
-	      <a class="navbar-brand" href="index.jsp">ERS</a>
+	      <a class="navbar-brand">ERS</a>
 	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -51,10 +52,9 @@
 		 </div>
 		 </div>
 		 </nav>
-	<%	EmployeeDAO dao = new EmployeeDAOImpl();
-		Employee user = dao.searchByUsername( session.getAttribute("username").toString() ); 
+	<%	
 		String tStreet, tCity, tState, tZip, tCountry;
-		String[] temp = user.getAddress().split(","); 
+		String[] temp = emp.getAddress().split(","); 
 		tStreet = temp[0]; 
 		String[] temp2 = temp[1].split(" "); 
 		
@@ -74,19 +74,19 @@
 		<div class="row g-3">
 			<div class="col-12">
 				<label for="usernameTB" class="form-label"> Username </label> <input
-					type="text" name="username" id="usernameTB" class="form-control is-valid" value="<%=user.getUsername() %>" readonly>
+					type="text" name="username" id="usernameTB" class="form-control is-valid" value="<%=emp.getUsername() %>" readonly>
 			</div>
 			<div class="col-sm-6">
 				<label for="fnameTB" class="form-label"> First Name </label> <input
-					type="text" name="fname" id="fnameTB" class="form-control is-invalid"  value="<%=user.getFirstName() %>" required>
+					type="text" name="fname" id="fnameTB" class="form-control is-invalid"  value="<%=emp.getFirstName() %>" required>
 			</div>
 			<div class="col-sm-6">
 				<label for="lnameTB" class="form-label"> Last Name </label> <input
-					type="text" name="lname" id="lnameTB" class="form-control is-invalid"  value="<%=user.getLastName() %>" required>
+					type="text" name="lname" id="lnameTB" class="form-control is-invalid"  value="<%=emp.getLastName() %>" required>
 			</div>
 			<div class="col-12">
 				<label for="emailTB" class="form-label"> Email </label> <input
-					type="text" name="email" id="emailTB" class="form-control is-valid"  value="<%=user.getEmail() %>" readonly>
+					type="text" name="email" id="emailTB" class="form-control is-valid"  value="<%=emp.getEmail() %>" readonly>
 			</div>
 			<div class="col-12">
 				<label for="addressTB" class="form-label"> Street </label> <input
@@ -112,7 +112,7 @@
 			<div class="col-12">
 				<label for="phonenumberTB" class="form-label"> Phone Number
 				</label> <input type="text" name="phonenumber" id="phonenumberTB"
-					class="form-control is-invalid"  value="<%=user.getPhoneNum() %>" required>
+					class="form-control is-invalid"  value="<%=emp.getPhoneNum() %>" required>
 			</div>
 
 		</div>
@@ -123,12 +123,12 @@
 			<div class="invisible col-6">
 				<label for="passwordTB" class="form-label"> Password </label> <input
 					type="password" name="password" id="passwordTB"
-					class="form-control is-invalid" value="<%=user.getPassword().hashCode() %>">
+					class="form-control is-invalid" value="<%=emp.getPassword().hashCode() %>">
 			</div>
 			<div class="invisible col-6">
 				<label for="conpasswordTB" class="form-label"> Confirm Password </label> <input
 					type="password" name="conpassword" id="conpasswordTB"
-					class="form-control is-invalid" value="<%=user.getPassword().hashCode() %>" required>
+					class="form-control is-invalid" value="<%=emp.getPassword().hashCode() %>" required>
 			</div>
 	</form>
 </div>

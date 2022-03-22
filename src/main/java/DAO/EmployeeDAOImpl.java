@@ -30,7 +30,9 @@ public class EmployeeDAOImpl implements EmployeeDAO
 	private String getById = "select employee_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Employee join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where employee_id = ?";
 	private static final String updateEmployee
 	= "UPDATE public.contact_info SET first_name=?, last_name=?, address=?, phone_number=? from useraccount u join employee e on u.user_id = e.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE e.employee_id =?";
-
+	private static final String updateBackup = "update contact_info set first_name=?, last_name=?, address=?, phone_number=? where email = ?"; 
+	
+	
 	@Override
 	public boolean addEmployee(Employee ref) 
 	{
@@ -90,15 +92,15 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		try 
 		{
 			con = DBConnection.getConnection();
-			state = con.prepareStatement(updateEmployee);
+			state = con.prepareStatement(updateBackup);
 			state.setString(1, obj.getFirstName());
 			state.setString(2, obj.getLastName());
 			state.setString(3, obj.getAddress());
 			state.setString(4, obj.getPhoneNum());
+			state.setString(5, obj.getEmail());
+			//state.setInt(5, obj.getId());
 			
-			state.setInt(5, obj.getId());
-			
-			flag = state.execute();
+			flag = state.executeUpdate() > 0;
 			
 			log.info("Update attempt in updateEmployee() | " + obj + (flag ? " was successful" : " has failed"));
 			state.close();
@@ -106,7 +108,7 @@ public class EmployeeDAOImpl implements EmployeeDAO
 		} catch (SQLException e) 
 		{
 			e.printStackTrace();
-			log.error("SQLException in updateEmployee() | " + e.getMessage());
+			log.error("SQLException in updateEmployee() | " + e.getMessage() + "\n");
 		} finally
 		{
 			DBConnection.closeConnection(con);

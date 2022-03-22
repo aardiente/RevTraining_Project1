@@ -16,7 +16,9 @@ public class ManagerDAOImpl implements ManagerDAO {
 	private static final String getById = "select manager_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Manager join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where manager_id = ?";
 	private static final String backupSearch = "select manager_id, user_name, user_password, first_name, last_name, email, address, phone_number, date_created from Manager join public.UserAccount on fk_userid = user_id join contact_info on fk_infoid = info_id where user_name = ?";
 	private static final String updateManager 
-	= "UPDATE public.contact_info SET first_name=?, last_name=?, email=?, address=?, phone_number=? from useraccount u join manager m on u.user_id = m.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE m.manager_id =?";
+	= "UPDATE public.contact_info SET first_name=?, last_name=?, address=?, phone_number=? from useraccount u join manager m on u.user_id = m.fk_userid join contact_info c on c.info_id = u.fk_infoid WHERE m.manager_id =?";
+	
+	private static final String updateBackup = "update contact_info set first_name=?, last_name=?, address=?, phone_number=? where email = ?"; 
 	
 	@Override
 	public boolean addManager(Manager ref) 
@@ -147,14 +149,14 @@ public class ManagerDAOImpl implements ManagerDAO {
 		try 
 		{
 			con = DBConnection.getConnection();
-			state = con.prepareStatement(updateManager);
+			state = con.prepareStatement(updateBackup);
 			state.setString(1, obj.getFirstName());
 			state.setString(2, obj.getLastName());
-			state.setString(3, obj.getEmail());
-			state.setString(4, obj.getAddress());
-			state.setString(5, obj.getPhoneNum());
 			
-			state.setInt(6, obj.getId());
+			state.setString(3, obj.getAddress());
+			state.setString(4, obj.getPhoneNum());
+			state.setString(5, obj.getEmail());
+			//state.setInt(5, obj.getId());
 			
 			flag = state.executeUpdate() > 0;
 			state.close();

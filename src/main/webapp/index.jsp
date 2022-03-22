@@ -25,7 +25,7 @@ body {
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Login.html">Login</a>
+            <a class="nav-link" href="Login.jsp">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="SignUp.html">Sign Up</a>

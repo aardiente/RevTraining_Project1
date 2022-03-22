@@ -14,14 +14,13 @@
 ManagerDAO dao = new ManagerDAOImpl();
 	Manager user = dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	StringBuffer url = request.getRequestURL();
-	String res = JSPHelper.urlParser(url.toString());
+	session.setAttribute("CurMan", user);
 %>
 <title>Logged In as <% if(user != null)%><%=user.getUsername() %> </title>
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.jsp">ERS</a>
+			<a class="navbar-brand">ERS</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
 				aria-controls="navbarCollapse" aria-expanded="false"

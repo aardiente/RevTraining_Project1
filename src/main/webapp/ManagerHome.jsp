@@ -3,6 +3,7 @@
    <%@ page import="Models.*"%>
    <%@ page import="DAO.*"%>
    <%@ page import="services.JSPHelper"%>
+   <%@ page import="Controllers.LoginController"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,19 +11,23 @@
 <link rel="stylesheet" type="text/css" href="Style.css">
 <meta charset="ISO-8859-1">
 <%
-ManagerDAO dao = new ManagerDAOImpl();
-	Manager user = dao.searchByUsername( session.getAttribute("username").toString() );
+	ManagerDAO dao = new ManagerDAOImpl();
+	Manager user = (Manager)LoginController.curUser;//(Manager)session.getAttribute("CurMan");//dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	StringBuffer url = request.getRequestURL();
-	String res = JSPHelper.urlParser(url.toString());
+	if(user == null)
+	{
+		response.sendRedirect("http://localhost:8080/Project_1/index.jsp");
+	}
 %>
+	
+
 <title>Logged In as <%= user.getUsername() %> </title>
 
 </head>
 <body>
 	 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		 <div class="container-fluid">
-	      <a class="navbar-brand" href="index.jsp">ERS</a>
+	      <a class="navbar-brand">ERS</a>
 	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -41,7 +46,9 @@ ManagerDAO dao = new ManagerDAOImpl();
 	            <a class="nav-link" href="UpdateManager.jsp">Update Info</a>
 	          </li>
 	        </ul>
-	        <a class="nav-link" href="index.jsp">Sign Out</a>
+	       	<form action="SignOut" method="get">
+	        	<input type="submit" name="signOutBtn" class="btn btn-primary" value="Sign Out">
+	        </form>
 		 </div>
 		 </div>
 		 </nav>

@@ -60,6 +60,12 @@
   	<description></description>
   	<servlet-class>Controllers.UpdateEmployeeController</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SignOutController</servlet-name>
+  	<display-name>SignOutController</display-name>
+  	<description></description>
+  	<servlet-class>Controllers.SignOutController</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>LoginController</servlet-name>
   	<url-pattern>/LoginController</url-pattern>
@@ -115,6 +121,14 @@
   <servlet-mapping>
   	<servlet-name>UpdateEmployeeController</servlet-name>
   	<url-pattern>/UpdateEmployee</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SignOutController</servlet-name>
+  	<url-pattern>/SignOutController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SignOutController</servlet-name>
+  	<url-pattern>/SignOut</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -3,6 +3,7 @@
    <%@ page import="Models.*"%>
    <%@ page import="DAO.*"%>
    <%@ page import="services.JSPHelper"%>
+   <%@ page import="Controllers.LoginController"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,10 +12,12 @@
 <meta charset="ISO-8859-1">
 <%
 	EmployeeDAO dao = new EmployeeDAOImpl();
-	Employee user = dao.searchByUsername( session.getAttribute("username").toString() );
+	Employee user = (Employee)LoginController.curUser;//(Employee)session.getAttribute("CurEmp");//dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	StringBuffer url = request.getRequestURL();
-	String res = JSPHelper.urlParser(url.toString());
+	if(user == null)
+	{
+		response.sendRedirect("http://localhost:8080/Project_1/index.jsp");
+	}
 %>
 <title>Welcome <%= user.getFirstName() + " " + user.getLastName() %></title>
 
@@ -22,7 +25,7 @@
 <body>
 	 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 		 <div class="container-fluid">
-	      <a class="navbar-brand" href="index.jsp">ERS</a>
+	      <a class="navbar-brand">ERS</a>
 	      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="navbar-toggler-icon"></span>
 	      </button>
@@ -41,6 +44,9 @@
 	            <a class="nav-link" href="UpdateEmployee.jsp">Update Info</a>
 	          </li>
 	        </ul>
+	        <form action="SignOut" method="get">
+	        	<input type="submit" name="signOutBtn" class="btn btn-primary" value="Sign Out">
+	        </form>
 		 </div>
 		 </div>
 		 </nav>
