@@ -39,7 +39,11 @@ public class SignOutController extends HttpServlet {
 		
 		
 		LoginController.curUser = null;
+		LoginController.loginStatus = false;
+		System.out.println(LoginController.loginStatus);
 		
+		session.setAttribute("loginFlag", LoginController.loginStatus);
+		session.invalidate();
 		dis = request.getRequestDispatcher("Login.jsp");
 		dis.include(request, response);
 	}

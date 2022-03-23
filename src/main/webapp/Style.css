@@ -56,4 +56,10 @@ body {
 	visibility: hidden;
 }
 
+#descriptionBoxStyle
+{
+	margin: auto;
+	height: 400px;
+	max-width: 20px;
+}
 

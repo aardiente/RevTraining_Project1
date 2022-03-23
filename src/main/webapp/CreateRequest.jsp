@@ -49,7 +49,9 @@
 		<div class="col-8"></div>
 		<div class="col-8">
 			<label for="descriptionTB" class="form-label"> Description </label> 
-			<input type="text" name="descriptionTB" id="descriptionTB" class="form-control input-lg" required>
+			<div class="descriptionBoxStyle">
+				<input type="text" name="descriptionTB" id="descriptionTB" class="form-control input-lg" required>
+			</div>
 		</div>
 		<div class="col-4"></div>
 		<div class="col-4">

@@ -14,7 +14,7 @@
 	ManagerDAO dao = new ManagerDAOImpl();
 	Manager user = (Manager)LoginController.curUser;//(Manager)session.getAttribute("CurMan");//dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	if(user == null)
+	if(user == null || session == null)
 	{
 		response.sendRedirect("http://localhost:8080/Project_1/index.jsp");
 	}

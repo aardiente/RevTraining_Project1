@@ -78,6 +78,7 @@ public class ReimbursmentTicket
 		{
 			return getStatusFlag(this);
 		}
+
 	}
 	private int id;
 	private float amount;

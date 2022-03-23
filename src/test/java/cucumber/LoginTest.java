@@ -44,7 +44,7 @@ class LoginTest {
 	{
 		driver.get("http://localhost:8080/Project_1/");
 		driver.manage().window().maximize();
-		driver.findElement( By.xpath("//*[@id=\"navbarCollapse\"]/ul/li[2]/a") ).click();
+		driver.findElement(By.xpath("//*[@id=\"navbarCollapse\"]/ul/li[2]/a") ).click();
 		driver.findElement(By.id("username")).sendKeys("aardiente");
 		driver.findElement(By.id("password")).sendKeys("tester");
 		driver.findElement(By.id("loginSubmitBtn")).click();

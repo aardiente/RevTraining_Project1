@@ -99,15 +99,16 @@ public class SignUpController extends HttpServlet {
 		else if (dao.addEmployee( new Employee(-1, data[0].toLowerCase(), data[1], data[2], data[3], data[4], data[5], comAddress, new Date(System.currentTimeMillis()) )))
 		{
 			dis = request.getRequestDispatcher("Login.html");
+			request.getSession().setAttribute("loginRes", "Account Created");
 			dis.include(request, response);
-			out.println("Account Created.");
+			
 			
 		}
 		else
 		{
 			dis = request.getRequestDispatcher("SignUp.html");
 			dis.include(request, response);
-			out.println("Sign up failed");
+
 		}
 	}
 

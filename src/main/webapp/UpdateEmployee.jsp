@@ -19,12 +19,7 @@
 <link rel="shortcut icon" href="">
 <!-- Just so it shuts up. -->
 </head>
-<% Employee emp = (Employee)LoginController.curUser;//session.getAttribute("CurEmp"); 
-	if(emp == null)
-	{
-		response.setStatus(response.SC_BAD_GATEWAY);
-		response.setHeader("Location", "Login.html");
-	}
+<% 
 %>
 
 <body>
@@ -53,6 +48,12 @@
 		 </div>
 		 </nav>
 	<%	
+		Employee emp = (Employee)LoginController.curUser;//session.getAttribute("CurEmp"); 
+		if(emp == null || !LoginController.loginStatus) 
+		{
+			response.sendRedirect("http://localhost:8080/Project_1/index.jsp");
+		}
+		
 		String tStreet, tCity, tState, tZip, tCountry;
 		String[] temp = emp.getAddress().split(","); 
 		tStreet = temp[0]; 

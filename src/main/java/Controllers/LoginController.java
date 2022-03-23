@@ -28,6 +28,7 @@ public class LoginController extends HttpServlet
 	private static Logger log = Logger.getLogger(LoginController.class.getName());
 	
 	public static UserAccount curUser = null;
+	public static boolean loginStatus = false;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -35,7 +36,6 @@ public class LoginController extends HttpServlet
     public LoginController()
     {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -53,10 +53,12 @@ public class LoginController extends HttpServlet
 	{
 		response.setContentType("text/html");
 		
+		HttpSession session = request.getSession(); 
+		
 		String user = request.getParameter("loginUser").toLowerCase();
 		String pass = request.getParameter("loginPass");
 		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession(); 
+		
 		RequestDispatcher dis = null;
 		EmployeeDAO dao = new EmployeeDAOImpl();
 		
@@ -91,9 +93,14 @@ public class LoginController extends HttpServlet
 					session.setAttribute("CurMan", temp);
 				
 				log.info("Signed in as " + temp);
+				
 				curUser = temp;
+				
 				dis = request.getRequestDispatcher("ManagerHome.jsp");
 			}
+			session.setAttribute("loginFlag", LoginController.loginStatus);
+			
+			loginStatus = true;
 			session.setAttribute("username", user);
 			session.setAttribute("password", pass);
 		}

@@ -4,17 +4,19 @@
    <%@ page import="DAO.*"%>
    <%@ page import="services.JSPHelper"%>
    <%@ page import="Controllers.LoginController"%>
+    <%@ page import="java.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="Style.css">
 <meta charset="ISO-8859-1">
+
+
 <%
-	EmployeeDAO dao = new EmployeeDAOImpl();
 	Employee user = (Employee)LoginController.curUser;//(Employee)session.getAttribute("CurEmp");//dao.searchByUsername( session.getAttribute("username").toString() );
 	
-	if(user == null)
+	if(session == null | user == null) 
 	{
 		response.sendRedirect("http://localhost:8080/Project_1/index.jsp");
 	}
@@ -52,5 +54,6 @@
 		 </nav>
 		 <br/>
 		 <h3> Hello <%= user.getFirstName() + " " + user.getLastName() %> </h3>
+
 </body>
 </html>
