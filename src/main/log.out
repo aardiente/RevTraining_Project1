@@ -1,0 +1,6 @@
+Login attempt to aardiente is successful
+Result of isEmployee() | true
+Result of searchByUsername() | [Employee Id: 6 | Username: aardiente | Password: -877169473 | Name: AnthonyArdiente | Email: anthony.ms.ardiente@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-19]
+Signed in as [Employee Id: 6 | Username: aardiente | Password: -877169473 | Name: AnthonyArdiente | Email: anthony.ms.ardiente@gmail.com | Phone Number: 2064346426 | Address: 28505 36th Ave S, Auburn WA 98001 United States | Date Activated: 2022-03-19]
+Login attempt to managertest is successful
+Result of isEmployee() | false
